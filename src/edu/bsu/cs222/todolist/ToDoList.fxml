@@ -14,6 +14,7 @@
             <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleSearchTasksButton" text="Search Tasks" />
             <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleAddTaskButton" text="Add Task" />
             <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleShowCalendarButton" text="Show Calendar" />
+            <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleDeleteSelectedButton" text="Delete Selected" />
       <padding>
          <Insets right="5.0" />
       </padding>
