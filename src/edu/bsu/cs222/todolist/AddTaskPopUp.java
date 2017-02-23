@@ -20,10 +20,15 @@ public class AddTaskPopUp {
         configureWindow();
         add.setOnAction(action -> {
             //Will need error handling, for example: task with no name or invalid date input
-           newTask[0] = taskName.getText();
-           newTask[1] = description.getText();
-           newTask[2] = dateFormatter.format(date.getValue());
-           window.close();
+            if (allFieldsAreFilledOut()) {
+                newTask[0] = taskName.getText();
+                newTask[1] = description.getText();
+                newTask[2] = dateFormatter.format(date.getValue());
+                window.close();
+            }
+            else {
+                System.out.println("Add this to GUI: please fill out all fields");
+            }
         });
         window.showAndWait();
         return newTask;
@@ -39,5 +44,10 @@ public class AddTaskPopUp {
         window.setWidth(540);
         window.setTitle("Add a New Task");
         window.setScene(scene);
+    }
+
+    private boolean allFieldsAreFilledOut() {
+        return !(taskName.getText().equals("") && description.getText().equals("") &&
+                dateFormatter.format(date.getValue()).equals(""));
     }
 }

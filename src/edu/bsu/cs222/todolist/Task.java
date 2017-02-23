@@ -3,12 +3,25 @@ package edu.bsu.cs222.todolist;
 import java.util.Date;
 
 public class Task {
-    private String task;
+    private String taskName;
     private String description;
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
     private String date; //may need to use date or something similar
 
-    public Task(String task, String description, String date) {
-        this.task = task;
+    public Task(String taskName, String description, String date) {
+        this.taskName = taskName;
         this.description = description;
         this.date = date;
     }
@@ -16,6 +29,6 @@ public class Task {
     //Test purposes
     @Override
     public String toString() {
-        return task + " " + description + " " + date.toString();
+        return taskName + " " + description + " " + date;
     }
 }

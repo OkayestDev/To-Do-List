@@ -19,11 +19,11 @@
          <Insets right="5.0" />
       </padding>
       </HBox>
-      <TableView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+      <TableView fx:id="taskTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
         <columns>
-          <TableColumn editable="false" minWidth="-1.0" prefWidth="200.0" resizable="false" text="Task" />
-          <TableColumn editable="false" prefWidth="400.0" resizable="false" text="Description" />
-            <TableColumn editable="false" minWidth="0.0" prefWidth="200.0" resizable="false" text="Date" />
+          <TableColumn fx:id="taskColumn" minWidth="-1.0" prefWidth="200.0" resizable="false" text="Task" />
+          <TableColumn fx:id="descriptionColumn" prefWidth="400.0" resizable="false" text="Description" />
+            <TableColumn fx:id="dateColumn" minWidth="0.0" prefWidth="200.0" resizable="false" text="Date" />
         </columns>
       </TableView>
 </VBox>
