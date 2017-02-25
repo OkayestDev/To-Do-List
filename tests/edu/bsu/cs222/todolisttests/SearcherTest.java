@@ -8,11 +8,6 @@ import org.junit.Test;
 
 public class SearcherTest {
     Searcher testSearcher = new Searcher(null);
-    @Test
-    public void testDoesTaskContain() {
-        Task tempTask = new Task("Dog", "not a cat", "11/11/2011");
-        Assert.assertTrue(testSearcher.doesTaskContain(tempTask, "og"));
-    }
 
     @Test
     public void testFilterList() {
@@ -28,7 +23,7 @@ public class SearcherTest {
         alreadyFilteredList.add(tempTask1);
         alreadyFilteredList.add(tempTask2);
         testSearcher = new Searcher(listToFilter);
-        listToFilter = testSearcher.filterList("og");
+        listToFilter = testSearcher.search("og");
         Assert.assertTrue(alreadyFilteredList.equals(listToFilter));
     }
 }
