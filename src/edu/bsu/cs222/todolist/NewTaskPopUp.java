@@ -6,7 +6,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import java.time.format.DateTimeFormatter;
 
-public class AddTaskPopUp {
+public class NewTaskPopUp {
     private Stage window = new Stage();
     private DatePicker date = new DatePicker();
     private TextField taskName = new TextField();
