@@ -2,11 +2,10 @@ package edu.bsu.cs222.todolist;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.util.Iterator;
 
 public class Searcher {
-    ObservableList<Task> listToSearch;
+    private ObservableList<Task> listToSearch;
 
     public Searcher(ObservableList<Task> listToSearch) {
         this.listToSearch = listToSearch;
