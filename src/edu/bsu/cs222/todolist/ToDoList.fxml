@@ -11,7 +11,10 @@
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs222.todolist.Controller">
       <HBox alignment="CENTER_RIGHT" fillHeight="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="43.0" prefWidth="600.0" spacing="10.0">
             <TextField fx:id="searchField" prefHeight="25.0" prefWidth="182.0" promptText="search for a task" />
-            <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleSearchTasksButton" text="Search Tasks" />
+            <Button fx:id="searchButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleSearchTasksButton" text="Search Tasks">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets></Button>
             <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleAddTaskButton" text="Add Task" />
             <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleShowCalendarButton" text="Show Calendar" />
             <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleDeleteSelectedButton" text="Delete Selected" />

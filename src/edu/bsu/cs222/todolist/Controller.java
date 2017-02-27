@@ -4,35 +4,37 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.time.YearMonth;
+
 public class Controller {
     @FXML
-    public TableColumn<Task, String> dateColumn;
+    private TableColumn<Task, String> dateColumn;
     @FXML
-    public TableColumn<Task, String> descriptionColumn;
+    private TableColumn<Task, String> descriptionColumn;
     @FXML
-    public TableColumn<Task, String> taskColumn;
+    private TableColumn<Task, String> taskColumn;
     @FXML
-    public TableView<Task> taskTable;
+    private TableView<Task> taskTable;
     @FXML
-    public TextField searchField;
-    ObservableList<Task> taskList = FXCollections.observableArrayList();
-    ObservableList<Task> filteredTaskList = FXCollections.observableArrayList();
+    private TextField searchField;
+    @FXML
+    private Button searchButton;
+    private boolean alreadyFiltered = false;
+    private ObservableList<Task> taskList = FXCollections.observableArrayList();
 
     public void handleAddTaskButton() {
-        Platform.runLater(new Runnable(){
-            @Override
-            public void run() {
-                NewTaskPopUp popUp = new NewTaskPopUp();
-                String[] taskAttributes = popUp.getNewTask();
-                Task newTask = new Task(taskAttributes[0], taskAttributes[1], taskAttributes[2]);
-                taskList.add(newTask);
-                setListToTable(taskList);
-            }
+        Platform.runLater(() -> {
+            NewTaskPopUp popUp = new NewTaskPopUp();
+            String[] taskAttributes = popUp.getNewTask();
+            Task newTask = new Task(taskAttributes[0], taskAttributes[1], taskAttributes[2]);
+            taskList.add(newTask);
+            setListToTable(taskList);
         });
     }
 
@@ -44,13 +46,25 @@ public class Controller {
     }
 
     public void handleShowCalendarButton() {
-
+        Platform.runLater(() -> {
+            CalendarView calendarView = new CalendarView(YearMonth.now());
+            calendarView.calendarShowAndWait();
+        });
     }
 
     public void handleSearchTasksButton() {
-        Searcher newSearcher = new Searcher(taskList);
-        ObservableList<Task> filteredList = newSearcher.filterList(searchField.getText());
-        setListToTable(filteredList);
+        if (!alreadyFiltered && !searchField.getText().equals("") && !taskList.isEmpty()) {
+            Searcher newSearcher = new Searcher(taskList);
+            ObservableList<Task> filteredList = newSearcher.filterList(searchField.getText());
+            setListToTable(filteredList);
+            searchButton.setText("Unfilter List");
+            alreadyFiltered = !alreadyFiltered;
+        }
+        else if (!searchField.getText().equals("")){
+            alreadyFiltered = !alreadyFiltered;
+            setListToTable(taskList);
+            searchButton.setText("Search Tasks");
+        }
     }
 
     public void handleDeleteSelectedButton() {

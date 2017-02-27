@@ -2,13 +2,13 @@ package edu.bsu.cs222.todolist;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.util.Iterator;
 
 public class Searcher {
     private String keyword;
     private ObservableList<Task> filteredList = FXCollections.observableArrayList();
     private Iterator<Task> iter;
+
 
     public Searcher(ObservableList<Task> listToSearch) {
         keyword = null;
