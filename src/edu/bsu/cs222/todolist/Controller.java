@@ -55,7 +55,7 @@ public class Controller {
     public void handleSearchTasksButton() {
         if (!alreadyFiltered && !searchField.getText().equals("") && !taskList.isEmpty()) {
             Searcher newSearcher = new Searcher(taskList);
-            ObservableList<Task> filteredList = newSearcher.filterList(searchField.getText());
+            ObservableList<Task> filteredList = newSearcher.search(searchField.getText());
             setListToTable(filteredList);
             searchButton.setText("Unfilter List");
             alreadyFiltered = !alreadyFiltered;
