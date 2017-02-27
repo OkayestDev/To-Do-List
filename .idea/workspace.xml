@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24508009-835f-47be-9595-954ae88b77d9" name="Default" comment="Resolve merger conflicts&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/edu/bsu/cs222/todolist/Searcher.java" afterPath="$PROJECT_DIR$/src/edu/bsu/cs222/todolist/Searcher.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/edu/bsu/cs222/todolisttests/SearcherTest.java" afterPath="$PROJECT_DIR$/tests/edu/bsu/cs222/todolisttests/SearcherTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
