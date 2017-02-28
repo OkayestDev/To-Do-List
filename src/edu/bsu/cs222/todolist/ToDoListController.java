@@ -4,15 +4,20 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.time.YearMonth;
 
-public class Controller {
+public class ToDoListController {
     @FXML
     private TableColumn<Task, String> dateColumn;
     @FXML
@@ -29,13 +34,23 @@ public class Controller {
     private ObservableList<Task> taskList = FXCollections.observableArrayList();
 
     public void handleAddTaskButton() {
-        Platform.runLater(() -> {
-            NewTaskPopUp popUp = new NewTaskPopUp();
-            String[] taskAttributes = popUp.getNewTask();
-            Task newTask = new Task(taskAttributes[0], taskAttributes[1], taskAttributes[2]);
-            taskList.add(newTask);
+        try {
+            Stage window = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("NewTaskPopUp.fxml"));
+            Parent root = fxmlLoader.load();
+            window.setTitle("Add New Task");
+            window.initModality(Modality.APPLICATION_MODAL);
+            window.setScene(new Scene(root));
+            NewTaskPopUpController popUp = fxmlLoader.getController();
+            window.showAndWait();
+            taskList.add(popUp.getNewTask());
             setListToTable(taskList);
-        });
+            window.close();
+        }
+        catch(Exception e) {
+            //Handle this error somehow
+            e.printStackTrace();
+        }
     }
 
     private void setListToTable(ObservableList<Task> listToAdd) {
@@ -47,7 +62,7 @@ public class Controller {
 
     public void handleShowCalendarButton() {
         Platform.runLater(() -> {
-            CalendarView calendarView = new CalendarView(YearMonth.now());
+            CalendarViewController calendarView = new CalendarViewController(YearMonth.now());
             calendarView.calendarShowAndWait();
         });
     }
@@ -57,7 +72,7 @@ public class Controller {
             Searcher newSearcher = new Searcher(taskList);
             ObservableList<Task> filteredList = newSearcher.filterList(searchField.getText());
             setListToTable(filteredList);
-            searchButton.setText("Unfilter List");
+            searchButton.setText("Remove Filter");
             alreadyFiltered = !alreadyFiltered;
         }
         else if (!searchField.getText().equals("")){

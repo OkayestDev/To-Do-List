@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs222.todolist.Controller">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs222.todolist.ToDoListController">
       <HBox alignment="CENTER_RIGHT" fillHeight="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="43.0" prefWidth="600.0" spacing="10.0">
             <TextField fx:id="searchField" prefHeight="25.0" prefWidth="182.0" promptText="search for a task" />
             <Button fx:id="searchButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleSearchTasksButton" text="Search Tasks">
