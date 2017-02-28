@@ -20,7 +20,7 @@ public class NewTaskPopUpController {
     private Label errorMessages;
     @FXML
     private Button add;
-    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
     private Task newTask;
 
     @FXML

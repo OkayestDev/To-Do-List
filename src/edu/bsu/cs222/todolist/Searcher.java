@@ -24,6 +24,7 @@ public class Searcher {
         return filteredList;
     }
 
+
     public boolean doesTaskContain(Task task, String keyword) {
         return task.getTaskName().toLowerCase().contains(keyword) || task.getDescription().toLowerCase().contains(keyword)
                 || task.getDate().toLowerCase().contains(keyword);

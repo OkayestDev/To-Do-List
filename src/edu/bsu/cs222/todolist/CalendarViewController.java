@@ -1,46 +1,49 @@
 package edu.bsu.cs222.todolist;
 
 import com.sun.javafx.scene.control.skin.DatePickerSkin;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.Node;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
+import javafx.scene.layout.*;
 import javafx.util.Callback;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.temporal.ChronoField;
-import java.util.Random;
-
-import static java.awt.SystemColor.window;
+import java.awt.*;
+import java.time.LocalDate;;
 
 public class CalendarViewController {
     @FXML
     private VBox verticalBox;
-    private YearMonth yearMonthToShow;
+    ObservableList<Task> taskList;
+    DatePicker datePicker = new DatePicker(LocalDate.now());
+    Searcher tasksWithDate; //use this to get list of tasks for that day after pressing a current day highlighted on the calendar
 
-    public CalendarViewController() {
-        yearMonthToShow = YearMonth.now();
-        
+    public void buildCalendar() {
+        verticalBox.getChildren().clear();
+        tasksWithDate = new Searcher(taskList);
+        datePicker.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+            @Override
+            public DateCell call(DatePicker param) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        String dateToLookFor = item.getMonthValue() + "/" + item.getDayOfMonth() + "/" + item.getYear();
+                        System.out.println(dateToLookFor);
+                        if (tasksWithDate.filterList(dateToLookFor).size() > 0) {
+                            this.setStyle("-fx-background-color:red");
+                        }
+                    }
+                };
+            }
+        });
+        DatePickerSkin datePickerSkin = new DatePickerSkin(datePicker);
+        Node calendar = datePickerSkin.getPopupContent();
+        verticalBox.getChildren().add(calendar);
     }
 
-    private void rebuildCalendar() {
-        verticalBox.getChildren().clear();
-        DatePickerSkin doesThisWork = new DatePickerSkin(new DatePicker(LocalDate.now()));
-        verticalBox.getChildren().add((doesThisWork.getPopupContent()));
+    public void setTaskList(ObservableList<Task> taskList) {
+        this.taskList = taskList;
     }
 }

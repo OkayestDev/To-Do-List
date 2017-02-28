@@ -34,23 +34,25 @@ public class ToDoListController {
     private ObservableList<Task> taskList = FXCollections.observableArrayList();
 
     public void handleAddTaskButton() {
-        try {
-            Stage window = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("NewTaskPopUp.fxml"));
-            Parent root = fxmlLoader.load();
-            window.setTitle("Add New Task");
-            window.initModality(Modality.APPLICATION_MODAL);
-            window.setScene(new Scene(root));
-            NewTaskPopUpController popUp = fxmlLoader.getController();
-            window.showAndWait();
-            taskList.add(popUp.getNewTask());
-            setListToTable(taskList);
-            window.close();
-        }
-        catch(Exception e) {
-            //Handle this error somehow
-            e.printStackTrace();
-        }
+        Platform.runLater(() -> {
+            try {
+                Stage window = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("NewTaskPopUp.fxml"));
+                Parent root = fxmlLoader.load();
+                window.setTitle("Add New Task");
+                window.initModality(Modality.APPLICATION_MODAL);
+                window.setScene(new Scene(root));
+                NewTaskPopUpController popUp = fxmlLoader.getController();
+                window.showAndWait();
+                taskList.add(popUp.getNewTask());
+                setListToTable(taskList);
+                window.close();
+            }
+            catch(Exception e) {
+                //Handle this error somehow
+                e.printStackTrace();
+            }
+        });
     }
 
     private void setListToTable(ObservableList<Task> listToAdd) {
@@ -62,8 +64,21 @@ public class ToDoListController {
 
     public void handleShowCalendarButton() {
         Platform.runLater(() -> {
-            CalendarViewController calendarView = new CalendarViewController(YearMonth.now());
-            calendarView.calendarShowAndWait();
+            try {
+                Stage window = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CalendarView.fxml"));
+                Parent root = fxmlLoader.load();
+                window.setTitle("Calendar View");
+                window.initModality(Modality.APPLICATION_MODAL);
+                window.setScene(new Scene(root));
+                CalendarViewController calendar = fxmlLoader.getController();
+                calendar.setTaskList(taskList);
+                calendar.buildCalendar();
+                window.showAndWait();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
         });
     }
 
