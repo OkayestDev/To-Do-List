@@ -3,21 +3,24 @@ package edu.bsu.cs222.todolist;
 import com.sun.javafx.scene.control.skin.DatePickerSkin;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.util.Callback;
 
-import java.awt.*;
-import java.time.LocalDate;;
+import java.time.LocalDate;
 
 public class CalendarViewController {
     @FXML
     private VBox verticalBox;
-    ObservableList<Task> taskList;
-    DatePicker datePicker = new DatePicker(LocalDate.now());
-    Searcher tasksWithDate; //use this to get list of tasks for that day after pressing a current day highlighted on the calendar
+    private ObservableList<Task> taskList;
+    private DatePicker datePicker = new DatePicker(LocalDate.now());
+    private Searcher tasksWithDate;
+    private StackPane currentCell;
 
     public void buildCalendar() {
         verticalBox.getChildren().clear();
@@ -28,12 +31,13 @@ public class CalendarViewController {
                 return new DateCell() {
                     @Override
                     public void updateItem(LocalDate item, boolean empty) {
-                        super.updateItem(item, empty);
                         String dateToLookFor = item.getMonthValue() + "/" + item.getDayOfMonth() + "/" + item.getYear();
-                        System.out.println(dateToLookFor);
+                        configureStackPane(this.getText());
                         if (tasksWithDate.filterList(dateToLookFor).size() > 0) {
                             this.setStyle("-fx-background-color:red");
                         }
+                        this.setGraphic(currentCell);
+                        this.setText("");
                     }
                 };
             }
@@ -41,6 +45,15 @@ public class CalendarViewController {
         DatePickerSkin datePickerSkin = new DatePickerSkin(datePicker);
         Node calendar = datePickerSkin.getPopupContent();
         verticalBox.getChildren().add(calendar);
+    }
+
+    private void configureStackPane(String dayOfTheMonth) {
+        currentCell = new StackPane();
+        currentCell.setMinSize(60, 60);
+        currentCell.setAlignment(Pos.CENTER);
+        Label day = new Label(dayOfTheMonth);
+        day.setFont(new Font("Times New Roman", 20));
+        currentCell.getChildren().add(day);
     }
 
     public void setTaskList(ObservableList<Task> taskList) {

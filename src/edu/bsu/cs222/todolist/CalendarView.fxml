@@ -3,4 +3,4 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox fx:id="verticalBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs222.todolist.CalendarViewController"/>
+<VBox fx:id="verticalBox" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs222.todolist.CalendarViewController" />

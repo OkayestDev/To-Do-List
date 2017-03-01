@@ -21,7 +21,7 @@ public class NewTaskPopUpController {
     @FXML
     private Button add;
     private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-    private Task newTask;
+    private Task newTask = null;
 
     @FXML
     public void handleAddButtonPress() {

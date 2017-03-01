@@ -44,8 +44,10 @@ public class ToDoListController {
                 window.setScene(new Scene(root));
                 NewTaskPopUpController popUp = fxmlLoader.getController();
                 window.showAndWait();
-                taskList.add(popUp.getNewTask());
-                setListToTable(taskList);
+                if (popUp.getNewTask() != null) {
+                    taskList.add(popUp.getNewTask());
+                    setListToTable(taskList);
+                }
                 window.close();
             }
             catch(Exception e) {
@@ -83,7 +85,8 @@ public class ToDoListController {
     }
 
     public void handleSearchTasksButton() {
-        if (!alreadyFiltered && !searchField.getText().equals("") && !taskList.isEmpty()) {
+        if (!alreadyFiltered && !searchField.getText().equals("") && taskList.size() > 0) {
+            System.out.println(taskList.size());
             Searcher newSearcher = new Searcher(taskList);
             ObservableList<Task> filteredList = newSearcher.filterList(searchField.getText());
             setListToTable(filteredList);
