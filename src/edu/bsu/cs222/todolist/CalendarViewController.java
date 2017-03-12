@@ -5,12 +5,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
-import javafx.util.Callback;
 
 import java.time.LocalDate;
 
@@ -25,26 +22,42 @@ public class CalendarViewController {
     public void buildCalendar() {
         verticalBox.getChildren().clear();
         tasksWithDate = new Searcher(taskList);
-        datePicker.setDayCellFactory(new Callback<DatePicker, DateCell>() {
-            @Override
-            public DateCell call(DatePicker param) {
-                return new DateCell() {
-                    @Override
-                    public void updateItem(LocalDate item, boolean empty) {
-                        String dateToLookFor = item.getMonthValue() + "/" + item.getDayOfMonth() + "/" + item.getYear();
-                        configureStackPane(this.getText());
-                        if (tasksWithDate.filterList(dateToLookFor).size() > 0) {
-                            this.setStyle("-fx-background-color:red");
-                        }
-                        this.setGraphic(currentCell);
-                        this.setText("");
-                    }
-                };
-            }
-        });
+        datePicker.setDayCellFactory(param -> formatCurrentDateCell());
         DatePickerSkin datePickerSkin = new DatePickerSkin(datePicker);
         Node calendar = datePickerSkin.getPopupContent();
         verticalBox.getChildren().add(calendar);
+    }
+
+    private DateCell formatCurrentDateCell() {
+        return new DateCell() {
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                String dateToLookFor = item.getMonthValue() + "/" + item.getDayOfMonth() + "/" + item.getYear();
+                configureStackPane(this.getText());
+                ObservableList<Task> currentTasks = tasksWithDate.filterList(dateToLookFor);
+                if (currentTasks.size() > 0) {
+                    this.setStyle("-fx-background-color:red");
+                    this.setOnMouseEntered(action -> {
+                        this.setTooltip(buildTooltip(currentTasks));
+                    });
+                }
+                this.setGraphic(currentCell);
+                this.setText("");
+            }
+        };
+    }
+
+    private Tooltip buildTooltip(ObservableList<Task> currentTasks) {
+        Tooltip taskInfo = new Tooltip();
+        taskInfo.setFont(new Font("Times New Roman", 16));
+        String contentText = "Task(s):\n";
+        int count = 1;
+        for (Task task : currentTasks) {
+            contentText += "Task " + count + ": " + task.toString() + "\n";
+            count++;
+        }
+        taskInfo.setText(contentText);
+        return taskInfo;
     }
 
     private void configureStackPane(String dayOfTheMonth) {

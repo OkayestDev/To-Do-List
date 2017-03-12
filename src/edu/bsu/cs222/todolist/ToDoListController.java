@@ -7,10 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -23,6 +21,8 @@ public class ToDoListController {
     @FXML
     private TableColumn<Task, String> descriptionColumn;
     @FXML
+    private TableColumn<CheckBox, Boolean> deleteColumn;
+    @FXML
     private TableColumn<Task, String> taskColumn;
     @FXML
     private TableView<Task> taskTable;
@@ -30,6 +30,8 @@ public class ToDoListController {
     private TextField searchField;
     @FXML
     private Button searchButton;
+    @FXML
+    private CheckBox checkBox;
     private boolean alreadyFiltered = false;
     private ObservableList<Task> taskList = FXCollections.observableArrayList();
 
@@ -39,7 +41,7 @@ public class ToDoListController {
                 Stage window = new Stage();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("NewTaskPopUp.fxml"));
                 Parent root = fxmlLoader.load();
-                window.setTitle("Add New Task");
+                window.setTitle("Add a New Task");
                 window.initModality(Modality.APPLICATION_MODAL);
                 window.setScene(new Scene(root));
                 NewTaskPopUpController popUp = fxmlLoader.getController();
@@ -61,6 +63,7 @@ public class ToDoListController {
         taskColumn.setCellValueFactory(new PropertyValueFactory<>("TaskName"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("Date"));
+        //deleteColumn.setCellFactory(checkBox -> new CheckBoxTableCell<>());
         taskTable.setItems(listToAdd);
     }
 
@@ -101,6 +104,6 @@ public class ToDoListController {
     }
 
     public void handleDeleteSelectedButton() {
-
+        //add tick column to todolist, after delete selected has been pressed remove all tasks that have been ticked
     }
 }
