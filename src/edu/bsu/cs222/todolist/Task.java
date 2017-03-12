@@ -26,9 +26,8 @@ public class Task {
         this.date = date;
     }
 
-    //Test purposes
     @Override
     public String toString() {
-        return taskName + " " + description + " " + date;
+        return taskName + " " + description;
     }
 }
