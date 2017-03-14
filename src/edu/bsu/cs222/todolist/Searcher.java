@@ -2,31 +2,55 @@ package edu.bsu.cs222.todolist;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import java.util.Iterator;
 
 public class Searcher {
     private ObservableList<Task> listToSearch;
+    private Iterator<Task> iter;
+    private ObservableList<Task> filteredList;
+    private String keyWord;
 
     public Searcher(ObservableList<Task> listToSearch) {
         this.listToSearch = listToSearch;
     }
 
     public ObservableList<Task> filterList(String keyword) {
-        Iterator<Task> iter = listToSearch.iterator();
-        keyword = keyword.toLowerCase();
-        ObservableList<Task> filteredList = FXCollections.observableArrayList();
-        while (iter.hasNext()) {
-            Task tempTask = iter.next();
-            if (doesTaskContain(tempTask, keyword)) {
-                filteredList.add(tempTask);
-            }
-        }
+        setIterator();
+        setFilteredList();
+        defineKeyword(keyword);
+        retriveResult();
         return filteredList;
     }
-
-
-    public boolean doesTaskContain(Task task, String keyword) {
-        return task.getTaskName().toLowerCase().contains(keyword) || task.getDescription().toLowerCase().contains(keyword)
-                || task.getDate().toLowerCase().contains(keyword);
+    private void setIterator() {
+        iter = listToSearch.iterator();
     }
+
+    private void setFilteredList() {
+        filteredList = FXCollections.observableArrayList();
+    }
+
+    private void defineKeyword(String keyword) {
+        this.keyWord = keyword;
+        this.keyWord = keyword.toLowerCase();
+    }
+
+    private void retriveResult() {
+        while (iter.hasNext()) {
+            addToFilterList();
+        }
+    }
+
+    private void addToFilterList() {
+        Task targetTask = iter.next();
+        if (isContain(targetTask, keyWord)) {
+            filteredList.add(targetTask);
+        }
+    }
+
+    private boolean isContain(Task targetTask, String keyword) {
+        return targetTask.getTaskName().toLowerCase().contains(keyword) || targetTask.getDescription().toLowerCase().contains(keyword)
+                || targetTask.getDate().toLowerCase().contains(keyword);
+    }
+
 }

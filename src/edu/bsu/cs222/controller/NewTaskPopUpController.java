@@ -1,5 +1,6 @@
-package edu.bsu.cs222.todolist;
+package edu.bsu.cs222.controller;
 
+import edu.bsu.cs222.todolist.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -20,19 +21,23 @@ public class NewTaskPopUpController {
     private Label errorMessages;
     @FXML
     private Button add;
-    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-    private Task newTask = null;
+    private DateTimeFormatter dateFormatter;
+    private Task newTask;
+
+    public NewTaskPopUpController(){
+        dateFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+        newTask = null;
+    }
 
     @FXML
     public void handleAddButtonPress() {
-        if (allFieldsAreFilledOut() && dateFilledOutCorrectly()) {
-            newTask = new Task(taskName.getText(), description.getText(), dateFormatter.format(date.getValue()));
-            Stage popUpStage = (Stage) add.getScene().getWindow();
-            popUpStage.close();
+        if (isAllFieldsAreFilledOut() && isDateFilledOutCorrectly()) {
+            setNewTask();
+            closeStage();
         }
     }
 
-    private boolean allFieldsAreFilledOut() {
+    private boolean isAllFieldsAreFilledOut() {
         if (!(taskName.getText().equals("") && description.getText().equals("") &&
                 date.getValue() == null)) {
             return true;
@@ -43,7 +48,7 @@ public class NewTaskPopUpController {
         }
     }
 
-    private boolean dateFilledOutCorrectly() {
+    private boolean isDateFilledOutCorrectly() {
         try {
             dateFormatter.format(date.getValue());
             return true;
@@ -54,6 +59,18 @@ public class NewTaskPopUpController {
         }
     }
 
+    private void setNewTask() {
+        newTask = Task.withTaskName(taskName.getText())
+                .andDescription(description.getText())
+                .andDate(dateFormatter.format(date.getValue()));
+    }
+
+    private void closeStage() {
+        Stage popUpStage = (Stage) add.getScene().getWindow();
+        popUpStage.close();
+    }
+
+    @SuppressWarnings("WeakerAccess but I need to get the newTask variable")
     public Task getNewTask() {
         return newTask;
     }

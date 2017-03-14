@@ -1,10 +1,39 @@
 package edu.bsu.cs222.todolist;
 
-import java.util.Date;
-
 public class Task {
     private String taskName;
     private String description;
+    private String date;
+
+    public static Builder withTaskName(String taskName) {
+        return new Builder(taskName);
+    }
+
+    public static final class Builder {
+        private String taskName;
+        private String description;
+        private String date;
+
+        public Builder(String taskName) {
+            this.taskName = taskName;
+        }
+
+        public Builder andDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Task andDate(String date){
+            this.date = date;
+            return new Task(this);
+        }
+    }
+
+    public Task(Builder builder) {
+        this.taskName = builder.taskName;
+        this.description = builder.description;
+        this.date = builder.date;
+    }
 
     public String getTaskName() {
         return taskName;
@@ -18,16 +47,4 @@ public class Task {
         return date;
     }
 
-    private String date; //may need to use date or something similar
-
-    public Task(String taskName, String description, String date) {
-        this.taskName = taskName;
-        this.description = description;
-        this.date = date;
-    }
-
-    @Override
-    public String toString() {
-        return taskName + " " + description;
-    }
 }
