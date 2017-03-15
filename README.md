@@ -1,5 +1,6 @@
 # fp-krichardson5-qliu4-tslantz-jmamuerbieke
-## What it can do? 
+## To Do List
+### What it can do?
 * Add tasks to the table
   * click the Add Button,type the task name, description, and Time into 
 * Search the task 
@@ -7,4 +8,4 @@
 * Check tasks in a calendar view which includes the task in correspond date cell
   * it turns to show the detail of the task when you ut the coursor on the cell with task
   
-*authors:krichardson5, qliu4, tslantz, jmamuerbieke*
+  *authors:krichardson5, qliu4, tslantz, jmamuerbieke*
