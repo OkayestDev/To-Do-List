@@ -33,6 +33,7 @@ public class CalendarViewController {
         setDatePickerSkin();
         setCalendarToVBox();
     }
+
     private void clearVbox() {
         verticalBox.getChildren().clear();
     }
