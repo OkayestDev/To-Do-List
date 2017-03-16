@@ -25,5 +25,4 @@ public class TaskTest {
     public void testTaskGetDate() {
         Assert.assertEquals(newTask.getDate(), "11/11/2017");
     }
-
 }

@@ -7,48 +7,47 @@ import javafx.scene.text.Font;
 
 public class TooltipBuilder {
     private int count;
-    private ObservableList<Task> currentTasks;
-    private Tooltip taskInfo;
-    private String contentText;
+    private ObservableList<Task> taskList;
+    private Tooltip taskListToolTip;
+    private String taskInformation;
 
-    public TooltipBuilder(ObservableList<Task> currentTasks) {
+    public TooltipBuilder(ObservableList<Task> TaskList) {
         count = 1;
-        this.currentTasks = currentTasks;
-        taskInfo = new Tooltip();
+        this.taskList = TaskList;
+        taskListToolTip = new Tooltip();
+        taskInformation = "";
     }
 
     public Tooltip build() {
-        setFontAndContentText();
-        return taskInfo;
+        setFontAndTaskInformation();
+        return taskListToolTip;
     }
 
-    private void setFontAndContentText() {
+    private void setFontAndTaskInformation() {
         setFont();
-        setContentText();
+        setTaskInformation();
     }
 
     private void setFont() {
-        taskInfo.setFont(new Font("Times New Roman", 16));
+        taskListToolTip.setFont(new Font("Times New Roman", 16));
     }
 
-    private void setContentText() {
-        setContentHeadText();
+    private void setTaskInformation() {
         setTaskSequenceNumber();
-        setContentTextToTaskInfo();
-    }
-
-    private void setContentHeadText() {
-        contentText = "Task(s):\n";
+        setTaskInformationToTaskListTooltip();
     }
 
     private void setTaskSequenceNumber() {
-        for (Task task : currentTasks) {
-            contentText += "Task " + count + ": " + task.getTaskName() + "," + task.getDescription() + "\n";
+        for (Task task : taskList) {
+            taskInformation += "Task "
+                    + count + ": "
+                    + task.getTaskName() + ","
+                    + task.getDescription() + "\n";
             count++;
         }
     }
 
-    private void setContentTextToTaskInfo() {
-       taskInfo.setText(contentText);
+    private void setTaskInformationToTaskListTooltip() {
+       taskListToolTip.setText(taskInformation);
     }
 }

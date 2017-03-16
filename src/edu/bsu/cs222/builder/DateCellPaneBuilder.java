@@ -7,33 +7,31 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 
 public class DateCellPaneBuilder {
-    private StackPane currentCell;
-    private Label day;
-    private String dayOfTheMonth;
+    private StackPane StackPane;
+    private Label dayOfStackPane;
 
     public DateCellPaneBuilder(DateCell dateCell) {
-        currentCell = new StackPane();
-        dayOfTheMonth = dateCell.getText();
+        StackPane = new StackPane();
+        setUpLabel(dateCell.getText());
     }
 
     public StackPane build() {
         setUpCurrentCell();
-        setUpLabel();
-        setUpLabelToCurrentCell();
-        return currentCell;
+        addLabelToCurrentStackPane();
+        return StackPane;
     }
 
     private void setUpCurrentCell() {
-        currentCell.setMinSize(60, 60);
-        currentCell.setAlignment(Pos.CENTER);
+        StackPane.setMinSize(60, 60);
+        StackPane.setAlignment(Pos.CENTER);
     }
 
-    private void setUpLabel() {
-        day = new Label(dayOfTheMonth);
-        day.setFont(new Font("Times New Roman", 20));
+    private void setUpLabel(String dayOfTheMonth) {
+        dayOfStackPane = new Label(dayOfTheMonth);
+        dayOfStackPane.setFont(new Font("Times New Roman", 20));
     }
 
-    private void setUpLabelToCurrentCell() {
-        currentCell.getChildren().add(day);
+    private void addLabelToCurrentStackPane() {
+        StackPane.getChildren().add(dayOfStackPane);
     }
 }

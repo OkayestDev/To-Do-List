@@ -9,17 +9,15 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-
 import java.time.LocalDate;
 
 public class CalendarViewController {
     @FXML
-    private VBox verticalBox;
+    private VBox vBox;
     private ObservableList<Task> taskList;
     private DatePicker datePicker;
-    private Searcher tasksWithDate;
-    private StackPane currentCell;
-    private Node calendar;
+    private Searcher searcher;
+    private StackPane stackPane;
     private DatePickerSkin datePickerSkin;
 
     public CalendarViewController(){
@@ -28,75 +26,71 @@ public class CalendarViewController {
 
     public void buildCalendar() {
         clearVbox();
-        createResearcher();
-        setDateCellFactory();
-        setDatePickerSkin();
-        setCalendarToVBox();
+        createSearcher();
+        setUpDateCellFactory();
+        setUpDatePickerSkin();
+        addCalendarToVbox();
     }
 
     private void clearVbox() {
-        verticalBox.getChildren().clear();
+        vBox.getChildren().clear();
     }
 
-    private void createResearcher() {
-        tasksWithDate = new Searcher(taskList);
+    private void createSearcher() {
+        searcher = new Searcher(taskList);
     }
 
-    private void setDateCellFactory() {
-        datePicker.setDayCellFactory(param -> formatCurrentDateCell());
+    private void setUpDateCellFactory() {
+        datePicker.setDayCellFactory(param -> setUpDateCell());
     }
 
-    private void setDatePickerSkin() {
+    private void setUpDatePickerSkin() {
         datePickerSkin = new DatePickerSkin(datePicker);
     }
 
-    private void setCalendarToVBox() {
-        calendar = datePickerSkin.getPopupContent();
-        verticalBox.getChildren().add(calendar);
+    private void addCalendarToVbox() {
+        Node calendar = datePickerSkin.getPopupContent();
+        vBox.getChildren().add(calendar);
     }
 
-    private DateCell formatCurrentDateCell() {
+    private DateCell setUpDateCell() {
         return new DateCell() {
             @Override
             public void updateItem(LocalDate item, boolean empty) {
-                ObservableList<Task> currentTask = getCurrentDate(item);
-                configureStackPane(this);
-                setUpCellWithTask(this,currentTask);
-                setUpCellWithoutTask(this);
+                ObservableList<Task> filteredTaskList = getFilteredTaskList(item);
+                setUpStackPane(this);
+                setUpCell(this,filteredTaskList);
             }
         };
     }
 
-    private  ObservableList<Task> getCurrentDate (LocalDate item) {
-        return tasksWithDate.filterList(setCurrentDate(item));
+    private  ObservableList<Task> getFilteredTaskList(LocalDate item) {
+        return searcher.filterList(setDate(item));
     }
 
-    private String setCurrentDate(LocalDate item){
-       return item.getMonthValue() + "/" + item.getDayOfMonth() + "/" + item.getYear();
+    private String setDate(LocalDate item){
+       return item.getMonthValue()
+               + "/"
+               + item.getDayOfMonth()
+               + "/"
+               + item.getYear();
     }
 
-
-    private void configureStackPane(DateCell dateCell) {
+    private void setUpStackPane(DateCell dateCell) {
         DateCellPaneBuilder dateCellPaneBuilder = new DateCellPaneBuilder(dateCell);
-        currentCell = dateCellPaneBuilder.build();
+        stackPane = dateCellPaneBuilder.build();
     }
 
-    private void setUpCellWithTask(DateCell dateCell, ObservableList<Task> currentTask) {
-        if (isCurrentTaskEmpty(currentTask)) {
+    private void setUpCell(DateCell dateCell, ObservableList<Task> filteredTaskList) {
+        if (isFilteredTaskListEmpty(filteredTaskList)) {
             dateCell.setStyle("-fx-background-color:red");
-            dateCell.setOnMouseEntered(action -> {
-                dateCell.setTooltip(buildTooltip(currentTask));
-            });
+            dateCell.setOnMouseEntered(action -> dateCell.setTooltip(buildTooltip(filteredTaskList)));
         }
+        setGraphicAndText(dateCell);
     }
 
-    private boolean isCurrentTaskEmpty(ObservableList<Task> currentTask) {
+    private boolean isFilteredTaskListEmpty(ObservableList<Task> currentTask) {
         return currentTask.size() > 0;
-    }
-
-    private void setUpCellWithoutTask(DateCell dateCell) {
-        dateCell.setGraphic(currentCell);
-        dateCell.setText("");
     }
 
     private Tooltip buildTooltip(ObservableList<Task> currentTask) {
@@ -104,8 +98,12 @@ public class CalendarViewController {
         return tooltipBuilder.build();
     }
 
+    private void setGraphicAndText(DateCell dateCell) {
+        dateCell.setGraphic(stackPane);
+        dateCell.setText("");
+    }
+
     public void setTaskList(ObservableList<Task> taskList) {
         this.taskList = taskList;
     }
-
 }

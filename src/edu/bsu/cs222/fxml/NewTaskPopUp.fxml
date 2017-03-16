@@ -9,14 +9,14 @@
 <?import javafx.scene.text.Font?>
 
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="591.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs222.controller.NewTaskPopUpController">
-      <Label fx:id="errorMessages">
+      <Label fx:id="errorLabel">
          <font>
             <Font size="13.0" />
          </font></Label>
       <HBox alignment="CENTER" prefHeight="68.0" prefWidth="600.0" spacing="8.0">
-            <TextField fx:id="taskName" promptText="Enter a New Task" />
-            <TextField fx:id="description" promptText="Enter a Description" />
+            <TextField fx:id="taskNameField" promptText="Enter a New Task" />
+            <TextField fx:id="descriptionField" promptText="Enter a Description" />
             <DatePicker fx:id="date" promptText="Enter Date" />
-            <Button fx:id="add" onAction="#handleAddButtonPress" text="Add" />
+            <Button fx:id="addButton" onAction="#handleAddButtonPress" text="Add" />
       </HBox>
 </VBox>

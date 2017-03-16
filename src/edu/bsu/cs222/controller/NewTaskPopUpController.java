@@ -14,18 +14,18 @@ public class NewTaskPopUpController {
     @FXML
     private DatePicker date;
     @FXML
-    private TextField taskName;
+    private TextField taskNameField;
     @FXML
-    private TextField description;
+    private TextField descriptionField;
     @FXML
-    private Label errorMessages;
+    private Label errorLabel;
     @FXML
-    private Button add;
-    private DateTimeFormatter dateFormatter;
+    private Button addButton;
+    private DateTimeFormatter dateTimeFormatter;
     private Task newTask;
 
     public NewTaskPopUpController(){
-        dateFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+        dateTimeFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
         newTask = null;
     }
 
@@ -38,35 +38,35 @@ public class NewTaskPopUpController {
     }
 
     private boolean isAllFieldsAreFilledOut() {
-        if (!(taskName.getText().equals("") && description.getText().equals("") &&
+        if (!(taskNameField.getText().equals("") && descriptionField.getText().equals("") &&
                 date.getValue() == null)) {
             return true;
         }
         else {
-            errorMessages.setText("Please fill out all fields");
+            errorLabel.setText("Please fill out all fields");
             return false;
         }
     }
 
     private boolean isDateFilledOutCorrectly() {
         try {
-            dateFormatter.format(date.getValue());
+            dateTimeFormatter.format(date.getValue());
             return true;
         }
         catch (Exception e) {
-            errorMessages.setText("Please fill out the date correctly or use the date picker");
+            errorLabel.setText("Please fill out the date correctly or use the date picker");
             return false;
         }
     }
 
     private void setNewTask() {
-        newTask = Task.withTaskName(taskName.getText())
-                .andDescription(description.getText())
-                .andDate(dateFormatter.format(date.getValue()));
+        newTask = Task.withTaskName(taskNameField.getText())
+                .andDescription(descriptionField.getText())
+                .andDate(dateTimeFormatter.format(date.getValue()));
     }
 
     private void closeStage() {
-        Stage popUpStage = (Stage) add.getScene().getWindow();
+        Stage popUpStage = (Stage) addButton.getScene().getWindow();
         popUpStage.close();
     }
 

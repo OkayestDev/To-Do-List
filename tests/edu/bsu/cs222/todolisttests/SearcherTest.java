@@ -22,10 +22,11 @@ public class SearcherTest {
         listToFilter = FXCollections.observableArrayList();
         alreadyFilteredList = FXCollections.observableArrayList();
     }
+
     @Before
     public void addTaskToLists(){
         addTaskToListToFilter();
-        addTaskToalreadyFilteredList();
+        addTaskToAlreadyFilteredList();
     }
 
     @Test
@@ -49,7 +50,7 @@ public class SearcherTest {
         listToFilter.add(task3);
     }
 
-    private void addTaskToalreadyFilteredList(){
+    private void addTaskToAlreadyFilteredList(){
         alreadyFilteredList.add(task1);
         alreadyFilteredList.add(task2);
     }

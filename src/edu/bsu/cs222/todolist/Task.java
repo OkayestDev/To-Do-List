@@ -14,7 +14,7 @@ public class Task {
         private String description;
         private String date;
 
-        public Builder(String taskName) {
+        Builder(String taskName) {
             this.taskName = taskName;
         }
 
@@ -46,5 +46,4 @@ public class Task {
     public String getDate() {
         return date;
     }
-
 }
