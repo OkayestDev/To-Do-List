@@ -59,7 +59,7 @@ public class CalendarViewController {
             public void updateItem(LocalDate item, boolean empty) {
                 ObservableList<Task> filteredTaskList = getFilteredTaskList(item);
                 setUpStackPane(this);
-                setUpCell(this,filteredTaskList);
+                setUpCell(this, filteredTaskList);
             }
         };
     }

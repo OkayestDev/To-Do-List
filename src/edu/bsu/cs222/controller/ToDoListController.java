@@ -45,8 +45,10 @@ public class ToDoListController implements Initializable {
     }
 
     public void handleShowCalendarButton() throws IOException {
-        CalendarViewBuilder calendarViewBuilder = new CalendarViewBuilder(taskList);
-        calendarViewBuilder.launch();
+        if (taskList.size() > 0) {
+            CalendarViewBuilder calendarViewBuilder = new CalendarViewBuilder(taskList);
+            calendarViewBuilder.launch();
+        }
     }
 
     public void handleSearchTasksButton() {

@@ -61,8 +61,8 @@ public class NewTaskPopUpController {
 
     private void setNewTask() {
         newTask = Task.withTaskName(taskNameField.getText())
-                .andDescription(descriptionField.getText())
-                .andDate(dateTimeFormatter.format(date.getValue()));
+                        .andDescription(descriptionField.getText())
+                      .andDate(dateTimeFormatter.format(date.getValue()));
     }
 
     private void closeStage() {

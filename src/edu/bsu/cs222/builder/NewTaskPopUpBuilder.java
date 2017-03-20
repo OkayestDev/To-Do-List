@@ -25,7 +25,9 @@ public class NewTaskPopUpBuilder {
                 e.printStackTrace();
             }
             setNewTask();
-            taskList.add(newTask);
+            if (newTask != null) {
+                taskList.add(newTask);
+            }
         });
     }
 

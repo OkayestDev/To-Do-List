@@ -41,7 +41,7 @@ public class TooltipBuilder {
         for (Task task : taskList) {
             taskInformation += "Task "
                     + count + ": "
-                    + task.getTaskName() + ","
+                    + task.getTaskName() + ", "
                     + task.getDescription() + "\n";
             count++;
         }
