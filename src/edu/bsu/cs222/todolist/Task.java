@@ -3,7 +3,8 @@ package edu.bsu.cs222.todolist;
 public class Task {
     private String taskName;
     private String description;
-    private String date;
+    private String date; //will need to change to a Date type, see feedback
+    private boolean toDelete;
 
     public static Builder withTaskName(String taskName) {
         return new Builder(taskName);
@@ -33,6 +34,7 @@ public class Task {
         this.taskName = builder.taskName;
         this.description = builder.description;
         this.date = builder.date;
+        this.toDelete = false;
     }
 
     public String getTaskName() {
@@ -45,5 +47,13 @@ public class Task {
 
     public String getDate() {
         return date;
+    }
+
+    public boolean isToDelete() {
+        return toDelete;
+    }
+
+    public void setToDelete(boolean toDelete) {
+        this.toDelete = toDelete;
     }
 }

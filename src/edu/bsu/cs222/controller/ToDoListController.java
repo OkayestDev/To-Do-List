@@ -1,5 +1,6 @@
 package edu.bsu.cs222.controller;
 
+import edu.bsu.cs222.builder.CheckBoxBuilder;
 import edu.bsu.cs222.todolist.Searcher;
 import edu.bsu.cs222.todolist.Task;
 import edu.bsu.cs222.builder.NewTaskPopUpBuilder;
@@ -22,6 +23,8 @@ public class ToDoListController implements Initializable {
     @FXML
     private TableColumn<Task, String> taskColumn;
     @FXML
+    private TableColumn<Task, CheckBox> deleteColumn;
+    @FXML
     private TableView<Task> taskTable;
     @FXML
     private TextField searchField;
@@ -36,6 +39,7 @@ public class ToDoListController implements Initializable {
         taskColumn.setCellValueFactory(new PropertyValueFactory<>("TaskName"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("Date"));
+        deleteColumn.setCellValueFactory(new CheckBoxBuilder());
         taskTable.setItems(taskList);
     }
 
@@ -89,6 +93,12 @@ public class ToDoListController implements Initializable {
     }
 
     public void handleDeleteSelectedButton() {
-        //add tick column to todolist, after delete selected has been pressed remove all tasks that have been ticked
+        Task task;
+        for (int i = taskList.size() - 1; i > -1; i--) {
+            task = taskList.get(i);
+            if (task.isToDelete()) {
+                taskList.remove(task);
+            }
+        }
     }
 }
