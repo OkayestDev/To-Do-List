@@ -16,7 +16,7 @@ public class TaskListLoader {
     private SAXBuilder jdomBuilder;
     private Document jdomDocument;
     private String folder;
-
+    private Element folderNode;
     public static Builder setXmlFileName(String fileName) {
         return new Builder(fileName);
     }
@@ -45,11 +45,15 @@ public class TaskListLoader {
 
     public ObservableList<Task> load() throws JDOMException, IOException {
         Element rootElement = jdomDocument.getRootElement();
-        Element folder1 = rootElement.getChild(folder);
-        List<Element> taskNode = folder1.getChildren("task");
-
+        List<Element> folders = rootElement.getChildren(folder);
+        for(int i = 0; i <folders.size();i++ ){
+            if(folders.get(i).getName().equals(folder)){
+                folderNode = folders.get(i);
+            }
+        }
+        List<Element> taskNode = folderNode.getChildren();
         for (int i = 0; i < taskNode.size(); i++) {
-            taskList.add(Task.withTaskName(taskNode.get(0).getChild("name").getText()).andDescription(taskNode.get(0).getChild("description").getText()).andDate(taskNode.get(0).getChild("date").getText()));
+            taskList.add(Task.withTaskName(taskNode.get(i).getChild("name").getText()).andDescription(taskNode.get(i).getChild("description").getText()).andDate(taskNode.get(i).getChild("date").getText()));
         }
         return taskList;
     }
