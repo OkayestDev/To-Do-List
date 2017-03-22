@@ -26,10 +26,12 @@ public class TaskListLoader {
     public ObservableList<Task> load() throws JDOMException, IOException {
         Element rootElement = jdomDocument.getRootElement();
         Element folder1 = rootElement.getChild("folder1");
-        Element nameNode = folder1.getChild("task");
-        String name = nameNode.getChild("name").getText();
+        List<Element> taskNode = folder1.getChildren("task");
 
-        taskList.add(Task.withTaskName(name).andDescription("test").andDate("11/11/2017"));
+        for(int i = 0; i< taskNode.size(); i++) {
+            taskList.add(Task.withTaskName(taskNode.get(0).getChild("name").getText()).andDescription(taskNode.get(0).getChild("description").getText()).andDate(taskNode.get(0).getChild("date").getText()));
+        }
         return taskList;
     }
+
 }
