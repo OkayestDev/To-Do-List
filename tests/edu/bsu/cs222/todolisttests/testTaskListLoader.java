@@ -10,15 +10,17 @@ import org.junit.Test;
 import java.io.IOException;
 
 public class testTaskListLoader {
-    private TaskListLoader taskListLoader;
+    private TaskListLoader taskListLoaderOne;
+    private TaskListLoader taskListLoaderTwo;
 
     public testTaskListLoader() throws JDOMException, IOException {
-        taskListLoader = new TaskListLoader("./assets/taskList.xml");
+        taskListLoaderOne = TaskListLoader.setXmlFileName("./assets/taskList.xml").andFolderName("folder1");
+        taskListLoaderTwo = TaskListLoader.setXmlFileName("./assets/taskList.xml").andFolderName("folder2");
     }
 
     @Test
     public void testLoad() throws JDOMException, IOException {
-        ObservableList<Task> taskList = taskListLoader.load();
+        ObservableList<Task> taskList = taskListLoaderOne.load();
         Assert.assertEquals(taskList.get(0).getTaskName(), "homework");
         Assert.assertEquals(taskList.get(0).getDescription(), "don't do it");
         Assert.assertEquals(taskList.get(0).getDate(), "11/11/2017");
@@ -26,10 +28,18 @@ public class testTaskListLoader {
 
     @Test
     public void testLoadAllTasks() throws JDOMException, IOException {
-        ObservableList<Task> taskList = taskListLoader.load();
+        ObservableList<Task> taskList = taskListLoaderOne.load();
         Assert.assertEquals(taskList.get(1).getTaskName(), "homework");
         Assert.assertEquals(taskList.get(1).getDescription(), "don't do it");
         Assert.assertEquals(taskList.get(1).getDate(), "11/11/2017");
+    }
+
+    @Test
+    public void testLoadDifferenFolder() throws JDOMException, IOException {
+        ObservableList<Task> taskList = taskListLoaderTwo.load();
+        Assert.assertEquals(taskList.get(0).getTaskName(), "game");
+        Assert.assertEquals(taskList.get(0).getDescription(), "well");
+        Assert.assertEquals(taskList.get(0).getDate(), "11/13/2017");
     }
 
 }
