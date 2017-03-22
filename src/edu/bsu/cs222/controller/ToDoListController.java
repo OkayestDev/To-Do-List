@@ -46,7 +46,7 @@ public class ToDoListController implements Initializable {
     public void handleAddTaskButton() {
         NewTaskPopUpBuilder newTaskPopUpBuilder = new NewTaskPopUpBuilder(taskList);
         newTaskPopUpBuilder.addTask();
-    }
+}
 
     public void handleShowCalendarButton() throws IOException {
         if (taskList.size() > 0) {
