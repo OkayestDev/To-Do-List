@@ -1,9 +1,10 @@
-package edu.bsu.cs222.controller;
+package edu.bsu.cs222.todolist.controller;
 
 import com.sun.javafx.scene.control.skin.DatePickerSkin;
-import edu.bsu.cs222.todolist.Searcher;
-import edu.bsu.cs222.todolist.Task;
-import edu.bsu.cs222.builder.*;
+import edu.bsu.cs222.todolist.model.Searcher;
+import edu.bsu.cs222.todolist.model.Task;
+import edu.bsu.cs222.todolist.builder.*;
+import edu.bsu.cs222.todolist.builder.TooltipBuilder;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -94,7 +95,7 @@ public class CalendarViewController {
     }
 
     private Tooltip buildTooltip(ObservableList<Task> currentTask) {
-        edu.bsu.cs222.builder.TooltipBuilder tooltipBuilder = new edu.bsu.cs222.builder.TooltipBuilder(currentTask);
+        edu.bsu.cs222.todolist.builder.TooltipBuilder tooltipBuilder = new TooltipBuilder(currentTask);
         return tooltipBuilder.build();
     }
 

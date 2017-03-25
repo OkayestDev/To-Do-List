@@ -1,6 +1,6 @@
-package edu.bsu.cs222.builder;
+package edu.bsu.cs222.todolist.builder;
 
-import edu.bsu.cs222.todolist.Task;
+import edu.bsu.cs222.todolist.model.Task;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;

@@ -1,4 +1,4 @@
-package edu.bsu.cs222.builder;
+package edu.bsu.cs222.todolist.builder;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

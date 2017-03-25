@@ -1,4 +1,4 @@
-package edu.bsu.cs222.todolist;
+package edu.bsu.cs222.todolist.model;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

@@ -1,4 +1,4 @@
-package edu.bsu.cs222.todolist;
+package edu.bsu.cs222.todolist.model;
 
 public class Task {
     private String taskName;

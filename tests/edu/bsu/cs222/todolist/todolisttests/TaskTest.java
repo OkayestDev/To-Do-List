@@ -1,6 +1,6 @@
-package edu.bsu.cs222.todolisttests;
+package edu.bsu.cs222.todolist.todolisttests;
 
-import edu.bsu.cs222.todolist.Task;
+import edu.bsu.cs222.todolist.model.Task;
 import org.junit.Assert;
 import org.junit.Test;
 

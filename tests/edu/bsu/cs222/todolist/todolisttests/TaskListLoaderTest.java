@@ -1,7 +1,7 @@
-package edu.bsu.cs222.todolisttests;
+package edu.bsu.cs222.todolist.todolisttests;
 
-import edu.bsu.cs222.todolist.Task;
-import edu.bsu.cs222.todolist.TaskListEditor;
+import edu.bsu.cs222.todolist.model.Task;
+import edu.bsu.cs222.todolist.model.TaskListLoader;
 import javafx.collections.ObservableList;
 import org.jdom2.JDOMException;
 import org.junit.Assert;
@@ -9,18 +9,18 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-public class testTaskListEditor {
-    private TaskListEditor taskListEditorOne;
-    private TaskListEditor taskListEditorTwo;
+public class TaskListLoaderTest {
+    private TaskListLoader taskListLoaderOne;
+    private TaskListLoader taskListLoaderTwo;
 
-    public testTaskListEditor() throws JDOMException, IOException {
-        taskListEditorOne = TaskListEditor.setXmlFileName("./assets/taskList.xml").andFolderName("folder1");
-        taskListEditorTwo = TaskListEditor.setXmlFileName("./assets/taskList.xml").andFolderName("folder2");
+    public TaskListLoaderTest() throws JDOMException, IOException {
+        taskListLoaderOne = TaskListLoader.setXmlFileName("./assets/taskListLoaderTest.xml").andFolderName("folder1");
+        taskListLoaderTwo = TaskListLoader.setXmlFileName("./assets/taskListLoaderTest.xml").andFolderName("folder2");
     }
 
     @Test
     public void testLoad() throws JDOMException, IOException {
-        ObservableList<Task> taskList = taskListEditorOne.load();
+        ObservableList<Task> taskList = taskListLoaderOne.load();
         Assert.assertEquals(taskList.get(0).getTaskName(), "homework");
         Assert.assertEquals(taskList.get(0).getDescription(), "don't do it");
         Assert.assertEquals(taskList.get(0).getDate(), "11/11/2017");
@@ -28,7 +28,7 @@ public class testTaskListEditor {
 
     @Test
     public void testLoadAllTasks() throws JDOMException, IOException {
-        ObservableList<Task> taskList = taskListEditorOne.load();
+        ObservableList<Task> taskList = taskListLoaderOne.load();
         Assert.assertEquals("housework", taskList.get(1).getTaskName());
         Assert.assertEquals("do it", taskList.get(1).getDescription() );
         Assert.assertEquals( "11/12/2017",taskList.get(1).getDate());
@@ -36,7 +36,7 @@ public class testTaskListEditor {
 
     @Test
     public void testLoadDifferenFolder() throws JDOMException, IOException {
-        ObservableList<Task> taskList = taskListEditorTwo.load();
+        ObservableList<Task> taskList = taskListLoaderTwo.load();
         Assert.assertEquals(taskList.get(0).getTaskName(), "game");
         Assert.assertEquals(taskList.get(0).getDescription(), "well");
         Assert.assertEquals(taskList.get(0).getDate(), "11/13/2017");
@@ -48,7 +48,7 @@ public class testTaskListEditor {
 
     @Test
     public void testAddNode() throws JDOMException, IOException {
-        taskListEditorOne.load();
-        taskListEditorTwo.add(Task.withTaskName("test").andDescription("testtest").andDate("11/22/2017"));
+        taskListLoaderOne.load();
+        taskListLoaderTwo.add(Task.withTaskName("test").andDescription("testtest").andDate("11/22/2017"));
     }
 }

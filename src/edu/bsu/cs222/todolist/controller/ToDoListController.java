@@ -1,10 +1,11 @@
-package edu.bsu.cs222.controller;
+package edu.bsu.cs222.todolist.controller;
 
-import edu.bsu.cs222.builder.CheckBoxBuilder;
-import edu.bsu.cs222.todolist.Searcher;
-import edu.bsu.cs222.todolist.Task;
-import edu.bsu.cs222.builder.NewTaskPopUpBuilder;
-import edu.bsu.cs222.builder.CalendarViewBuilder;
+import edu.bsu.cs222.todolist.model.Searcher;
+import edu.bsu.cs222.todolist.model.Task;
+import edu.bsu.cs222.todolist.builder.NewTaskPopUpBuilder;
+import edu.bsu.cs222.todolist.builder.CalendarViewBuilder;
+import edu.bsu.cs222.todolist.model.TaskListSaver;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -39,7 +40,7 @@ public class ToDoListController implements Initializable {
         taskColumn.setCellValueFactory(new PropertyValueFactory<>("TaskName"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("Date"));
-        deleteColumn.setCellValueFactory(new CheckBoxBuilder());
+        deleteColumn.setCellValueFactory(new edu.bsu.cs222.todolist.builder.CheckBoxBuilder());
         taskTable.setItems(taskList);
     }
 
@@ -94,11 +95,47 @@ public class ToDoListController implements Initializable {
 
     public void handleDeleteSelectedButton() {
         Task task;
-        for (int i = taskList.size() - 1; i > -1; i--) {
+        for(int i = taskList.size() - 1; i > -1; i--) {
             task = taskList.get(i);
             if (task.isToDelete()) {
                 taskList.remove(task);
             }
         }
+    }
+
+    private void setUpAlert(String headerText, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setHeaderText(headerText);
+        alert.showAndWait();
+    }
+
+    public void handleSaveListButton() {
+        Platform.runLater(() -> {
+            try {
+                if (!taskList.isEmpty()) {
+                    TaskListSaver saver = new TaskListSaver(taskList);
+                    saver.save();
+                    setUpAlert("Task list successfully loaded", Alert.AlertType.INFORMATION);
+                }
+                else {
+                    setUpAlert("Unable to load task list", Alert.AlertType.ERROR);
+                }
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void handleLoadListButton() {
+//        Platform.runLater(() -> {
+//           try {
+//               TaskListLoader loader = new TaskListLoader(new TaskListLoader.Builder());
+//               taskList = loader.load();
+//           }
+//           catch(Exception e) {
+//               e.printStackTrace();
+//           }
+//        });
     }
 }

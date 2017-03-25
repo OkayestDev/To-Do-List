@@ -1,6 +1,6 @@
-package edu.bsu.cs222.controller;
+package edu.bsu.cs222.todolist.controller;
 
-import edu.bsu.cs222.todolist.Task;
+import edu.bsu.cs222.todolist.model.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -61,7 +61,7 @@ public class NewTaskPopUpController {
 
     private void setNewTask() {
         newTask = Task.withTaskName(taskNameField.getText())
-                        .andDescription(descriptionField.getText())
+                      .andDescription(descriptionField.getText())
                       .andDate(dateTimeFormatter.format(date.getValue()));
     }
 

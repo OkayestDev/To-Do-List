@@ -1,4 +1,4 @@
-package edu.bsu.cs222.todolist;
+package edu.bsu.cs222.todolist.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -7,13 +7,11 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
-
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-public class TaskListEditor {
+public class TaskListLoader {
     private String fileName;
     private ObservableList<Task> taskList;
     private SAXBuilder jdomBuilder;
@@ -34,19 +32,18 @@ public class TaskListEditor {
             this.fileName = fileName;
         }
 
-        public TaskListEditor andFolderName(String folderName) throws JDOMException, IOException {
+        public TaskListLoader andFolderName(String folderName) throws JDOMException, IOException {
             this.folder = folderName;
-            return new TaskListEditor(this);
+            return new TaskListLoader(this);
         }
     }
 
-    public TaskListEditor(Builder builder) throws JDOMException, IOException {
+    public TaskListLoader(Builder builder) throws JDOMException, IOException {
         taskList = FXCollections.observableArrayList();
         this.fileName = builder.fileName;
         this.folder = builder.folder;
         jdomBuilder = new SAXBuilder();
         jdomDocument = jdomBuilder.build(this.fileName);
-
         rootElement = jdomDocument.getRootElement();
         List<Element> folders = rootElement.getChildren(folder);
         for (int i = 0; i < folders.size(); i++) {
@@ -57,7 +54,6 @@ public class TaskListEditor {
     }
 
     public ObservableList<Task> load() throws JDOMException, IOException {
-
         List<Element> taskNode = folderNode.getChildren();
         for (int i = 0; i < taskNode.size(); i++) {
             taskList.add(Task.withTaskName(taskNode.get(i).getChild("name").getText()).andDescription(taskNode.get(i).getChild("description").getText()).andDate(taskNode.get(i).getChild("date").getText()));
@@ -82,6 +78,6 @@ public class TaskListEditor {
 
         XMLOutputter xmlOutputter = new XMLOutputter();
         FileOutputStream fileOutputStream = new FileOutputStream("./assets/taskListAdd.xml");
-        xmlOutputter.output(jdomDocument,fileOutputStream);
+        xmlOutputter.output(jdomDocument, fileOutputStream);
     }
 }
