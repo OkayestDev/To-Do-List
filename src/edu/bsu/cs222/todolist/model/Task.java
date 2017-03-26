@@ -4,7 +4,7 @@ public class Task {
     private String taskName;
     private String description;
     private String date; //will need to change to a Date type, see feedback
-    private boolean toDelete;
+    private boolean selected;
 
     public static Builder withTaskName(String taskName) {
         return new Builder(taskName);
@@ -34,7 +34,7 @@ public class Task {
         this.taskName = builder.taskName;
         this.description = builder.description;
         this.date = builder.date;
-        this.toDelete = false;
+        this.selected = false;
     }
 
     public String getTaskName() {
@@ -49,11 +49,11 @@ public class Task {
         return date;
     }
 
-    public boolean isToDelete() {
-        return toDelete;
+    public boolean isSelected() {
+        return selected;
     }
 
-    public void setToDelete(boolean toDelete) {
-        this.toDelete = toDelete;
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

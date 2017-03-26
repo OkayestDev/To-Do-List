@@ -58,7 +58,7 @@ public class ToDoListController implements Initializable {
     }
 
     public void handleSearchTasksButton() {
-        if (isFilteredListView() && isSearchFieldEmpty() && isTaskListEmpty()) {
+        if (isFilteredListView() && isSearchFieldEmpty() && !isTaskListEmpty()) {
             switchToFilteredListView(getFilteredList());
         } else if (isSearchFieldEmpty()) {
             switchToTaskListView();
@@ -74,7 +74,7 @@ public class ToDoListController implements Initializable {
     }
 
     private boolean isTaskListEmpty() {
-        return taskList.size() > 0;
+        return taskList.size() == 0;
     }
 
     private void switchToFilteredListView(ObservableList<Task> filteredList) {
@@ -92,13 +92,14 @@ public class ToDoListController implements Initializable {
         filteredStatus = !filteredStatus;
         taskTable.setItems(taskList);
         searchButton.setText("Search Tasks");
+        searchField.setText("");
     }
 
     public void handleDeleteSelectedButton() {
         Task task;
         for(int i = taskList.size() - 1; i > -1; i--) {
             task = taskList.get(i);
-            if (task.isToDelete()) {
+            if (task.isSelected()) {
                 taskList.remove(task);
             }
         }
@@ -113,13 +114,13 @@ public class ToDoListController implements Initializable {
     public void handleSaveListButton() {
         Platform.runLater(() -> {
             try {
-                if (!taskList.isEmpty()) {
+                if (!isTaskListEmpty()) {
                     TaskListSaver saver = new TaskListSaver(taskList);
                     saver.save();
                     setUpAlert("Task list successfully saved", Alert.AlertType.INFORMATION);
                 }
                 else {
-                    setUpAlert("Cannot save an Empty task list", Alert.AlertType.ERROR);
+                    setUpAlert("Cannot save an empty task list", Alert.AlertType.ERROR);
                 }
             }
             catch(Exception e) {
@@ -137,7 +138,7 @@ public class ToDoListController implements Initializable {
                setUpAlert("Task list successfully loaded", Alert.AlertType.INFORMATION);
            }
            catch(Exception e) {
-               setUpAlert("Could load task list", Alert.AlertType.ERROR);
+               setUpAlert("Couldn't load task list", Alert.AlertType.ERROR);
            }
         });
     }

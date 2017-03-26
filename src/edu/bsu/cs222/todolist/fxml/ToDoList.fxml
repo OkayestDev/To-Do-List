@@ -33,7 +33,7 @@
           <TableColumn fx:id="taskColumn" minWidth="-1.0" prefWidth="200.0" resizable="false" text="Task" />
           <TableColumn fx:id="descriptionColumn" prefWidth="400.0" resizable="false" text="Description" />
             <TableColumn fx:id="dateColumn" minWidth="0.0" prefWidth="169.0" resizable="false" text="Date" />
-         <TableColumn fx:id="deleteColumn" text="Delete" />
+         <TableColumn fx:id="deleteColumn" text="Select" />
         </columns>
       </TableView>
 </VBox>
