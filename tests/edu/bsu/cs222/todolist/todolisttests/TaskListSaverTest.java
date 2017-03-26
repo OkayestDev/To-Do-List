@@ -38,6 +38,6 @@ public class TaskListSaverTest {
         TaskListSaver saver = new TaskListSaver(taskList);
         Document savedDocument = saver.save();
         Document testDocument = jdomBuilder.build(new File("assets/taskListLoadAndSaveTest.xml"));
-        Assert.assertTrue(testDocument.toString().equals(testDocument.toString()));
+        Assert.assertTrue(testDocument.toString().equals(savedDocument.toString()));
     }
 }

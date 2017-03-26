@@ -4,6 +4,7 @@ import edu.bsu.cs222.todolist.model.Searcher;
 import edu.bsu.cs222.todolist.model.Task;
 import edu.bsu.cs222.todolist.builder.NewTaskPopUpBuilder;
 import edu.bsu.cs222.todolist.builder.CalendarViewBuilder;
+import edu.bsu.cs222.todolist.model.TaskListLoader;
 import edu.bsu.cs222.todolist.model.TaskListSaver;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -47,7 +48,7 @@ public class ToDoListController implements Initializable {
     public void handleAddTaskButton() {
         NewTaskPopUpBuilder newTaskPopUpBuilder = new NewTaskPopUpBuilder(taskList);
         newTaskPopUpBuilder.addTask();
-}
+    }
 
     public void handleShowCalendarButton() throws IOException {
         if (taskList.size() > 0) {
@@ -115,27 +116,29 @@ public class ToDoListController implements Initializable {
                 if (!taskList.isEmpty()) {
                     TaskListSaver saver = new TaskListSaver(taskList);
                     saver.save();
-                    setUpAlert("Task list successfully loaded", Alert.AlertType.INFORMATION);
+                    setUpAlert("Task list successfully saved", Alert.AlertType.INFORMATION);
                 }
                 else {
-                    setUpAlert("Unable to load task list", Alert.AlertType.ERROR);
+                    setUpAlert("Cannot save an Empty task list", Alert.AlertType.ERROR);
                 }
             }
             catch(Exception e) {
-                e.printStackTrace();
+                setUpAlert("Unable to save task list", Alert.AlertType.ERROR);
             }
         });
     }
 
     public void handleLoadListButton() {
-//        Platform.runLater(() -> {
-//           try {
-//               TaskListLoader loader = new TaskListLoader(new TaskListLoader.Builder());
-//               taskList = loader.load();
-//           }
-//           catch(Exception e) {
-//               e.printStackTrace();
-//           }
-//        });
+        Platform.runLater(() -> {
+           try {
+               TaskListLoader loader = new TaskListLoader("./taskList/SavedTaskList.xml");
+               taskList = loader.load();
+               taskTable.setItems(taskList);
+               setUpAlert("Task list successfully loaded", Alert.AlertType.INFORMATION);
+           }
+           catch(Exception e) {
+               setUpAlert("Could load task list", Alert.AlertType.ERROR);
+           }
+        });
     }
 }
