@@ -13,6 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.jdom2.JDOMException;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -96,13 +98,39 @@ public class ToDoListController implements Initializable {
     }
 
     public void handleDeleteSelectedButton() {
-        Task task;
-        for(int i = taskList.size() - 1; i > -1; i--) {
-            task = taskList.get(i);
-            if (task.isSelected()) {
-                taskList.remove(task);
+        Deleter deleter = new Deleter(taskList);
+        deleter.deleteSelectedTask();
+    }
+
+    public void handleSaveListButton() {
+        Platform.runLater(() -> {
+            try {
+                if (!isTaskListEmpty()) {
+                    SetUpSaver(taskList);
+                    setUpAlert("Task list successfully saved", Alert.AlertType.INFORMATION);
+                } else {
+                    setUpAlert("Cannot save an empty task list", Alert.AlertType.ERROR);
+                }
+            } catch (Exception e) {
+                setUpAlert("Unable to save task list", Alert.AlertType.ERROR);
             }
-        }
+        });
+    }
+
+    private void SetUpSaver(ObservableList<Task> taskList) throws JDOMException, IOException {
+        TaskListSaver saver = new TaskListSaver(taskList);
+        saver.save();
+    }
+
+    public void handleLoadListButton() {
+        Platform.runLater(() -> {
+            try {
+                SetUpLoader();
+                setUpAlert("Task list successfully loaded", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                setUpAlert("Couldn't load task list", Alert.AlertType.ERROR);
+            }
+        });
     }
 
     private void setUpAlert(String headerText, Alert.AlertType alertType) {
@@ -111,35 +139,9 @@ public class ToDoListController implements Initializable {
         alert.showAndWait();
     }
 
-    public void handleSaveListButton() {
-        Platform.runLater(() -> {
-            try {
-                if (!isTaskListEmpty()) {
-                    TaskListSaver saver = new TaskListSaver(taskList);
-                    saver.save();
-                    setUpAlert("Task list successfully saved", Alert.AlertType.INFORMATION);
-                }
-                else {
-                    setUpAlert("Cannot save an empty task list", Alert.AlertType.ERROR);
-                }
-            }
-            catch(Exception e) {
-                setUpAlert("Unable to save task list", Alert.AlertType.ERROR);
-            }
-        });
-    }
-
-    public void handleLoadListButton() {
-        Platform.runLater(() -> {
-           try {
-               TaskListLoader loader = new TaskListLoader("./taskList/SavedTaskList.xml");
-               taskList = loader.load();
-               taskTable.setItems(taskList);
-               setUpAlert("Task list successfully loaded", Alert.AlertType.INFORMATION);
-           }
-           catch(Exception e) {
-               setUpAlert("Couldn't load task list", Alert.AlertType.ERROR);
-           }
-        });
+    private void SetUpLoader() throws JDOMException, IOException {
+        TaskListLoader loader = new TaskListLoader("./taskList/SavedTaskList.xml");
+        taskList = loader.load();
+        taskTable.setItems(taskList);
     }
 }

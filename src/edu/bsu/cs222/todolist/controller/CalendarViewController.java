@@ -95,7 +95,7 @@ public class CalendarViewController {
     }
 
     private Tooltip buildTooltip(ObservableList<Task> currentTask) {
-        edu.bsu.cs222.todolist.builder.TooltipBuilder tooltipBuilder = new TooltipBuilder(currentTask);
+        TooltipBuilder tooltipBuilder = new TooltipBuilder(currentTask);
         return tooltipBuilder.build();
     }
 

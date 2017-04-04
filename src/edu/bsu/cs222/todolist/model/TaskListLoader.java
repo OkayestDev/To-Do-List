@@ -9,6 +9,7 @@ import org.jdom2.input.SAXBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class TaskListLoader {
             Element element = iterator.next();
             String taskName = element.getChildText("name");
             String description = element.getChildText("description");
-            String date = element.getChildText("date");
+            LocalDate date = new LocalDate();element.getChildText("date");
             Task newTask = Task.withTaskName(taskName)
                             .andDescription(description)
                             .andDate(date);

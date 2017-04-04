@@ -1,10 +1,13 @@
 package edu.bsu.cs222.todolist.model;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 public class Task {
     private String taskName;
     private String description;
-    private String date; //will need to change to a Date type, see feedback
-    private boolean selected;
+    private LocalDate date;
+    private boolean selectStatus;
 
     public static Builder withTaskName(String taskName) {
         return new Builder(taskName);
@@ -13,7 +16,7 @@ public class Task {
     public static final class Builder {
         private String taskName;
         private String description;
-        private String date;
+        private LocalDate date;
 
         Builder(String taskName) {
             this.taskName = taskName;
@@ -24,7 +27,7 @@ public class Task {
             return this;
         }
 
-        public Task andDate(String date){
+        public Task andDate(LocalDate date){
             this.date = date;
             return new Task(this);
         }
@@ -34,7 +37,7 @@ public class Task {
         this.taskName = builder.taskName;
         this.description = builder.description;
         this.date = builder.date;
-        this.selected = false;
+        this.selectStatus = false;
     }
 
     public String getTaskName() {
@@ -45,15 +48,15 @@ public class Task {
         return description;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
     public boolean isSelected() {
-        return selected;
+        return selectStatus;
     }
 
-    public void setSelected(boolean selected) {
-        this.selected = selected;
+    public void setSelectStatus(boolean selected) {
+        this.selectStatus = selected;
     }
 }

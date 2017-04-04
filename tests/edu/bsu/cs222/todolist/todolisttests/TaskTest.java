@@ -4,6 +4,11 @@ import edu.bsu.cs222.todolist.model.Task;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 public class TaskTest {
     private Task newTask;
 
@@ -12,17 +17,22 @@ public class TaskTest {
     }
 
     @Test
-    public void testTaskGetTaskName() {
+    public void testGetTaskName() {
         Assert.assertEquals(newTask.getTaskName(), "School");
     }
 
     @Test
-    public void testTaskGetGetDescription() {
+    public void testGetGetDescription() {
         Assert.assertEquals(newTask.getDescription(), "no");
     }
 
     @Test
-    public void testTaskGetDate() {
+    public void testGetDate() {
         Assert.assertEquals(newTask.getDate(), "11/11/2017");
+    }
+
+    @Test
+    public void testUseLocalDate(){
+        LocalDate localDate = new LocalDate(11/11/2017);
     }
 }

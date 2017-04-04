@@ -8,11 +8,22 @@ import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
 
 public class CheckBoxBuilder implements Callback<TableColumn.CellDataFeatures<Task, CheckBox>, ObservableValue<CheckBox>> {
+    private Task task;
+    private CheckBox checkBox;
+
     @Override
     public ObservableValue<CheckBox> call(TableColumn.CellDataFeatures<Task, CheckBox> param) {
-        Task task = param.getValue();
-        CheckBox checkBox = new CheckBox();
-        checkBox.selectedProperty().addListener((ov, old_val, new_val) -> task.setSelected(new_val));
+        setTask(param);
+        setUpCheckBox();
         return new SimpleObjectProperty<>(checkBox);
+    }
+
+    public void setTask(TableColumn.CellDataFeatures<Task,CheckBox> param) {
+        task = param.getValue();
+    }
+
+    private void setUpCheckBox() {
+        checkBox = new CheckBox();
+        checkBox.selectedProperty().addListener((ov, old_val, new_val) -> task.setSelectStatus(new_val));
     }
 }
