@@ -133,15 +133,15 @@ public class ToDoListController implements Initializable {
         });
     }
 
+    private void SetUpLoader() throws JDOMException, IOException {
+        TaskListLoader loader = new TaskListLoader("./testassets/SavedTaskList.xml");
+        taskList = loader.load();
+        taskTable.setItems(taskList);
+    }
+
     private void setUpAlert(String headerText, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setHeaderText(headerText);
         alert.showAndWait();
-    }
-
-    private void SetUpLoader() throws JDOMException, IOException {
-        TaskListLoader loader = new TaskListLoader("./taskList/SavedTaskList.xml");
-        taskList = loader.load();
-        taskTable.setItems(taskList);
     }
 }

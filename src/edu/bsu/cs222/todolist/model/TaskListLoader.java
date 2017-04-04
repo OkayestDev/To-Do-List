@@ -14,26 +14,27 @@ import java.util.Iterator;
 import java.util.List;
 
 public class TaskListLoader {
-    private Document savedTaskList;
+    private Document document;
 
-    public TaskListLoader(String filename) throws JDOMException, IOException{
+    public TaskListLoader(String fileName) throws JDOMException, IOException{
         SAXBuilder jdomBuilder = new SAXBuilder();
-        savedTaskList = jdomBuilder.build(new File(filename));
+        document = jdomBuilder.build(new File(fileName));
     }
 
     public ObservableList<Task> load() {
-                List<Element> taskNodeChildren = savedTaskList.getRootElement().getChildren();
-                Iterator<Element> iterator = taskNodeChildren.iterator();
+                List<Element> taskNodeChildrenList = document.getRootElement().getChildren();
+                Iterator<Element> iterator = taskNodeChildrenList.iterator();
                 ObservableList<Task> taskList = FXCollections.observableArrayList();
                 while(iterator.hasNext()) {
                     Element element = iterator.next();
                     String taskName = element.getChildText("name");
                     String description = element.getChildText("description");
-                    element.getChildText("date");
-//                    Task newTask = Task.withTaskName(taskName)
-//                            .andDescription(description)
-//                            .andDate(date);
-//            taskList.add(newTask);
+                    String date = element.getChildText("date");
+                    LocalDate localDate = LocalDate.parse(date);
+                    Task newTask = Task.withTaskName(taskName)
+                            .andDescription(description)
+                            .andDate(localDate);
+            taskList.add(newTask);
         }
         return taskList;
     }
