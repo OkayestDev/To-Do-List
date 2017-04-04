@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 
-@SuppressWarnings("WeakerAccess but I don't need to make the class private")
+@SuppressWarnings("WeakerAccess I don't need to make the class private")
 public class StageBuilder {
     private Stage stage;
     private FXMLLoader fxmlLoader;
