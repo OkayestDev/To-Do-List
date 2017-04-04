@@ -17,18 +17,18 @@ public class TaskListSaverTest {
 
     private void setUp() {
         taskList = FXCollections.observableArrayList();
-        Task taskOne = Task.withTaskName("Homework")
-                .andDescription("CS222 Homework")
-                .andDate("4/17/2017");
-        Task taskTwo = Task.withTaskName("Dishes")
-                .andDescription("Do the dishes you bum")
-                .andDate("4/18/2017");
-        Task taskThree = Task.withTaskName("CS222 Group Project")
-                .andDescription("Code this test case")
-                .andDate("4/19/2017");
-        taskList.add(taskOne);
-        taskList.add(taskTwo);
-        taskList.add(taskThree);
+//        Task taskOne = Task.withTaskName("Homework")
+//                .andDescription("CS222 Homework")
+//                .andDate("4/17/2017");
+//        Task taskTwo = Task.withTaskName("Dishes")
+//                .andDescription("Do the dishes you bum")
+//                .andDate("4/18/2017");
+//        Task taskThree = Task.withTaskName("CS222 Group Project")
+//                .andDescription("Code this test case")
+//                .andDate("4/19/2017");
+//        taskList.add(taskOne);
+//        taskList.add(taskTwo);
+//        taskList.add(taskThree);
     }
 
     @Test

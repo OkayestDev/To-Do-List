@@ -24,7 +24,7 @@
       <HBox alignment="CENTER" prefHeight="31.0" prefWidth="600.0" spacing="8.0">
             <TextField fx:id="taskNameField" promptText="Enter a New Task" />
             <TextField fx:id="descriptionField" promptText="Enter a Description" />
-            <DatePicker fx:id="date" promptText="Enter Date" />
+            <DatePicker fx:id="datePicker" promptText="Enter Date" />
             <Button fx:id="addButton" onAction="#handleAddButtonPress" text="Add" />
       </HBox>
 </VBox>

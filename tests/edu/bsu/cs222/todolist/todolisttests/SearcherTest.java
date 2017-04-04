@@ -16,11 +16,11 @@ public class SearcherTest {
     private Task task3;
 
     public SearcherTest() {
-        task1 = Task.withTaskName("Dog").andDescription("barking dog").andDate("11/11/2011");
-        task2 = Task.withTaskName("Jog").andDescription("jog for 30 minutes").andDate("11/12/2011");
-        task3 = Task.withTaskName("Cat").andDescription("Cat in the Hat").andDate("11/11/2012");
-        listToFilter = FXCollections.observableArrayList();
-        alreadyFilteredList = FXCollections.observableArrayList();
+//        task1 = Task.withTaskName("Dog").andDescription("barking dog").andDate("11/11/2011");
+//        task2 = Task.withTaskName("Jog").andDescription("jog for 30 minutes").andDate("11/12/2011");
+//        task3 = Task.withTaskName("Cat").andDescription("Cat in the Hat").andDate("11/11/2012");
+//        listToFilter = FXCollections.observableArrayList();
+//        alreadyFilteredList = FXCollections.observableArrayList();
     }
 
     @Before

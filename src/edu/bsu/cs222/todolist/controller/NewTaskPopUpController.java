@@ -7,12 +7,12 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.time.format.DateTimeFormatter;
+
 
 public class NewTaskPopUpController {
     @FXML
-    private DatePicker date;
+    private DatePicker datePicker;
     @FXML
     private TextField taskNameField;
     @FXML
@@ -39,7 +39,7 @@ public class NewTaskPopUpController {
 
     private boolean isAllFieldsAreFilledOut() {
         if (!(taskNameField.getText().equals("") && descriptionField.getText().equals("") &&
-                date.getValue() == null)) {
+                datePicker.getValue() == null)) {
             return true;
         }
         else {
@@ -50,7 +50,7 @@ public class NewTaskPopUpController {
 
     private boolean isDateFilledOutCorrectly() {
         try {
-            dateTimeFormatter.format(date.getValue());
+            dateTimeFormatter.format(datePicker.getValue());
             return true;
         }
         catch (Exception e) {
@@ -62,7 +62,7 @@ public class NewTaskPopUpController {
     private void setNewTask() {
         newTask = Task.withTaskName(taskNameField.getText())
                       .andDescription(descriptionField.getText())
-                      .andDate(date.getValue());
+                      .andDate(datePicker.getValue());
     }
 
     private void closeStage() {

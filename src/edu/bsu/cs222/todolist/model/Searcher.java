@@ -50,6 +50,6 @@ public class Searcher {
     private boolean isContain(Task targetTask, String keyword) {
         return targetTask.getTaskName().toLowerCase().contains(keyword)
                 || targetTask.getDescription().toLowerCase().contains(keyword)
-                || targetTask.getDate().toLowerCase().contains(keyword);
+                || targetTask.getDate().toString().toLowerCase().contains(keyword);
     }
 }

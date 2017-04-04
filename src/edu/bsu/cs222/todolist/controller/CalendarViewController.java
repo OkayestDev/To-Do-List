@@ -66,15 +66,7 @@ public class CalendarViewController {
     }
 
     private  ObservableList<Task> getFilteredTaskList(LocalDate item) {
-        return searcher.filterList(setDate(item));
-    }
-
-    private String setDate(LocalDate item){
-       return item.getMonthValue()
-               + "/"
-               + item.getDayOfMonth()
-               + "/"
-               + item.getYear();
+        return searcher.filterList(item.toString());
     }
 
     private void setUpStackPane(DateCell dateCell) {

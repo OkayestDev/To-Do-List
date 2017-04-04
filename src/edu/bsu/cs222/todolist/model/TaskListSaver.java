@@ -46,10 +46,10 @@ public class TaskListSaver {
         newElements();
         String taskName = task.getTaskName();
         String description = task.getDescription();
-        String date = task.getDate();
+//        String date = task.getDate();
         nameNode.setText(taskName);
         descriptionNode.setText(description);
-        dateNode.setText(date);
+//        dateNode.setText(date);
     }
 
     private void addToDocument(Task task) {

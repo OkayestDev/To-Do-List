@@ -12,9 +12,9 @@ import java.util.GregorianCalendar;
 public class TaskTest {
     private Task newTask;
 
-    public TaskTest() {
-        newTask = Task.withTaskName("School").andDescription("no").andDate("11/11/2017");
-    }
+//    public TaskTest() {
+//        newTask = Task.withTaskName("School").andDescription("no").andDate("11/11/2017");
+//    }
 
     @Test
     public void testGetTaskName() {
@@ -33,6 +33,9 @@ public class TaskTest {
 
     @Test
     public void testUseLocalDate(){
-        LocalDate localDate = new LocalDate(11/11/2017);
+       GregorianCalendar gregorianCalendar = new GregorianCalendar(2017,11,11);
+       System.out.println(gregorianCalendar.getTime().toString());
+       LocalDate localDate = LocalDate.of(2017,11,11);
+       System.out.println(localDate.getDayOfMonth());
     }
 }

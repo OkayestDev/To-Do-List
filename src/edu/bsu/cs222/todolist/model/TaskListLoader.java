@@ -22,18 +22,18 @@ public class TaskListLoader {
     }
 
     public ObservableList<Task> load() {
-        List<Element> taskNodeChildren = savedTaskList.getRootElement().getChildren();
-        Iterator<Element> iterator = taskNodeChildren.iterator();
-        ObservableList<Task> taskList = FXCollections.observableArrayList();
-        while(iterator.hasNext()) {
-            Element element = iterator.next();
-            String taskName = element.getChildText("name");
-            String description = element.getChildText("description");
-            LocalDate date = new LocalDate();element.getChildText("date");
-            Task newTask = Task.withTaskName(taskName)
-                            .andDescription(description)
-                            .andDate(date);
-            taskList.add(newTask);
+                List<Element> taskNodeChildren = savedTaskList.getRootElement().getChildren();
+                Iterator<Element> iterator = taskNodeChildren.iterator();
+                ObservableList<Task> taskList = FXCollections.observableArrayList();
+                while(iterator.hasNext()) {
+                    Element element = iterator.next();
+                    String taskName = element.getChildText("name");
+                    String description = element.getChildText("description");
+                    element.getChildText("date");
+//                    Task newTask = Task.withTaskName(taskName)
+//                            .andDescription(description)
+//                            .andDate(date);
+//            taskList.add(newTask);
         }
         return taskList;
     }
