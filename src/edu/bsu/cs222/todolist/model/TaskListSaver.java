@@ -34,7 +34,7 @@ public class TaskListSaver {
 
     private void OutputDocumentToXml() throws IOException {
         XMLOutputter xmlOutputter = new XMLOutputter();
-        FileOutputStream fileOutputStream = new FileOutputStream("./tasklist/SavedTaskList.xml");
+        FileOutputStream fileOutputStream = new FileOutputStream("./testassets/TaskListSaverTest.xml");
         xmlOutputter.output(document, fileOutputStream);
     }
 
