@@ -25,14 +25,14 @@ public class NewTaskPopUpController {
     private Task newTask;
 
     public NewTaskPopUpController(){
-        dateTimeFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+        dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/M/d");
         newTask = null;
     }
 
     @FXML
     public void handleAddButtonPress() {
         if (isAllFieldsAreFilledOut() && isDateFilledOutCorrectly()) {
-            setNewTask();
+            constructTask();
             closeStage();
         }
     }
@@ -59,7 +59,7 @@ public class NewTaskPopUpController {
         }
     }
 
-    private void setNewTask() {
+    private void constructTask() {
         newTask = Task.withTaskName(taskNameField.getText())
                       .andDescription(descriptionField.getText())
                       .andDate(datePicker.getValue());

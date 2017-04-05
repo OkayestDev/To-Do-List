@@ -8,6 +8,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
+
 public class SearcherTest {
     private ObservableList<Task> listToFilter;
     private ObservableList<Task> alreadyFilteredList;
@@ -15,18 +17,21 @@ public class SearcherTest {
     private Task task2;
     private Task task3;
 
-    public SearcherTest() {
-//        task1 = Task.withTaskName("Dog").andDescription("barking dog").andDate("11/11/2011");
-//        task2 = Task.withTaskName("Jog").andDescription("jog for 30 minutes").andDate("11/12/2011");
-//        task3 = Task.withTaskName("Cat").andDescription("Cat in the Hat").andDate("11/11/2012");
-//        listToFilter = FXCollections.observableArrayList();
-//        alreadyFilteredList = FXCollections.observableArrayList();
-    }
-
     @Before
     public void addTaskToLists(){
         addTaskToListToFilter();
         addTaskToAlreadyFilteredList();
+    }
+
+    public SearcherTest() {
+        LocalDate localDate1 = LocalDate.of(2011, 11, 11);
+        LocalDate localDate2 = LocalDate.of(2011, 11, 12);
+        LocalDate localDate3 = LocalDate.of(2011, 11, 11);
+        task1 = Task.withTaskName("Dog").andDescription("barking dog").andDate(localDate1);
+        task2 = Task.withTaskName("Jog").andDescription("jog for 30 minutes").andDate(localDate2);
+        task3 = Task.withTaskName("Cat").andDescription("Cat in the Hat").andDate(localDate3);
+        listToFilter = FXCollections.observableArrayList();
+        alreadyFilteredList = FXCollections.observableArrayList();
     }
 
     @Test
