@@ -16,33 +16,56 @@ import java.time.LocalDate;
 
 public class TaskListSaverTest {
     private ObservableList<Task> taskList;
+    private Task task1;
+    private Task task2;
+    private Task task3;
+    private SAXBuilder jdomBuilder;
+    private Document savedDocument;
+    private Document documentForTest;
 
-    @SuppressWarnings("OctalInteger")
     public TaskListSaverTest() {
-        LocalDate localDate1 = LocalDate.of(2017, 04, 17);
-        LocalDate localDate2 = LocalDate.of(2017, 04, 18);
-        LocalDate localDate3 = LocalDate.of(2017, 04, 19);
         taskList = FXCollections.observableArrayList();
-        Task taskOne = Task.withTaskName("Homework")
+        jdomBuilder = new SAXBuilder();
+        setTasks();
+        addTasksToTaskList();
+    }
+
+    @SuppressWarnings("OctalInteger, 04 is the time format of LocalDate")
+    private void setTasks() {
+        LocalDate localDate1 = LocalDate.of(2017, 04, 17);
+        task1 = Task.withTaskName("Homework")
                 .andDescription("CS222 Homework")
                 .andDate(localDate1);
-        Task taskTwo = Task.withTaskName("Dishes")
+        LocalDate localDate2 = LocalDate.of(2017, 04, 18);
+        task2 = Task.withTaskName("Dishes")
                 .andDescription("Do the dishes you bum")
                 .andDate(localDate2);
-        Task taskThree = Task.withTaskName("CS222 Group Project")
+        LocalDate localDate3 = LocalDate.of(2017, 04, 19);
+        task3 = Task.withTaskName("CS222 Group Project")
                 .andDescription("Code this test case")
                 .andDate(localDate3);
-        taskList.add(taskOne);
-        taskList.add(taskTwo);
-        taskList.add(taskThree);
+    }
+
+    private void addTasksToTaskList() {
+        taskList.add(task1);
+        taskList.add(task2);
+        taskList.add(task3);
     }
 
     @Test
     public void testTaskListSaver() throws JDOMException, IOException {
-        SAXBuilder jdomBuilder = new SAXBuilder();
+        saveXml();
+        setDocumentForTest();
+
+        Assert.assertTrue(documentForTest.toString().equals(savedDocument.toString()));
+    }
+
+    private void setDocumentForTest() throws JDOMException, IOException {
+        documentForTest = jdomBuilder.build(new File("./testassets/TaskListLoaderTest.xml"));
+    }
+
+    private void saveXml() throws JDOMException, IOException {
         TaskListSaver saver = new TaskListSaver(taskList);
-        Document savedDocument = saver.save();
-        Document testDocument = jdomBuilder.build(new File("./testassets/TaskListLoaderTest.xml"));
-        Assert.assertTrue(testDocument.toString().equals(savedDocument.toString()));
+        savedDocument = saver.save();
     }
 }

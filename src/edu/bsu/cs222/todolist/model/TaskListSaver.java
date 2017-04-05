@@ -10,8 +10,8 @@ import java.io.IOException;
 
 public class TaskListSaver {
     private ObservableList<Task> taskList;
-    private Element taskNode;
     private Document document;
+    private Element taskNode;
     private Element nameNode;
     private Element descriptionNode;
     private Element dateNode;

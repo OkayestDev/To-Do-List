@@ -5,13 +5,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.time.LocalDate;
-import java.util.GregorianCalendar;
 
 public class TaskTest {
     private Task newTask;
 
     public TaskTest() {
-        LocalDate localDate = LocalDate.of(2017,11,11);
+        LocalDate localDate = LocalDate.of(2017, 11, 11);
         newTask = Task.withTaskName("School").andDescription("no").andDate(localDate);
     }
 
@@ -21,7 +20,7 @@ public class TaskTest {
     }
 
     @Test
-    public void testGetGetDescription() {
+    public void testGetDescription() {
         Assert.assertEquals(newTask.getDescription(), "no");
     }
 
@@ -31,10 +30,10 @@ public class TaskTest {
     }
 
     @Test
-    public void testUseLocalDate(){
-       GregorianCalendar gregorianCalendar = new GregorianCalendar(2017,11,11);
-       System.out.println(gregorianCalendar.getTime().toString());
-       LocalDate localDate = LocalDate.of(2017,11,11);
-       System.out.println(localDate.getDayOfMonth());
+    public void testLearnLocalDate() {
+        LocalDate localDate = LocalDate.of(2017, 11, 11);
+        System.out.println(localDate.getYear());
+        System.out.println(localDate.getMonthValue());
+        System.out.println(localDate.getDayOfMonth());
     }
 }
