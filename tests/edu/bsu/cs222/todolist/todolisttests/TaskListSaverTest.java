@@ -56,16 +56,15 @@ public class TaskListSaverTest {
     public void testTaskListSaver() throws JDOMException, IOException {
         saveXml();
         setDocumentForTest();
-
         Assert.assertTrue(documentForTest.toString().equals(savedDocument.toString()));
     }
 
     private void setDocumentForTest() throws JDOMException, IOException {
-        documentForTest = jdomBuilder.build(new File("./testassets/TaskListLoaderTest.xml"));
+        documentForTest = jdomBuilder.build(new File("./testassets/TaskListSaverTestCopy.xml"));
     }
 
     private void saveXml() throws JDOMException, IOException {
         TaskListSaver saver = new TaskListSaver(taskList);
-        savedDocument = saver.save();
+        savedDocument = saver.saveTo("./testassets/TaskListSaverTest.xml");
     }
 }

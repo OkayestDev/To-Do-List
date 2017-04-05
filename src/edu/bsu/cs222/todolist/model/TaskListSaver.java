@@ -5,6 +5,7 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.output.XMLOutputter;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -16,25 +17,26 @@ public class TaskListSaver {
     private Element descriptionNode;
     private Element dateNode;
     private int count;
+    private String filePath;
 
-    public TaskListSaver(ObservableList<Task> taskList) throws JDOMException, IOException{
+    public TaskListSaver(ObservableList<Task> taskList) throws JDOMException, IOException {
         this.taskList = taskList;
         document = new Document();
         document.setRootElement(new Element("taskList"));
         count = 1;
     }
 
-    public Document save() throws JDOMException, IOException{
-        for(Task task : taskList) {
+    public Document saveTo(String filePath) throws JDOMException, IOException {
+        for (Task task : taskList) {
             addToDocument(task);
         }
-        OutputDocumentToXml();
+        OutputDocumentToXml(filePath);
         return document;
     }
 
-    private void OutputDocumentToXml() throws IOException {
+    private void OutputDocumentToXml(String filePath) throws IOException {
         XMLOutputter xmlOutputter = new XMLOutputter();
-        FileOutputStream fileOutputStream = new FileOutputStream("./testassets/TaskListSaverTest.xml");
+        FileOutputStream fileOutputStream = new FileOutputStream(filePath);
         xmlOutputter.output(document, fileOutputStream);
     }
 

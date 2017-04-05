@@ -119,7 +119,7 @@ public class ToDoListController implements Initializable {
 
     private void SetUpSaver(ObservableList<Task> taskList) throws JDOMException, IOException {
         TaskListSaver saver = new TaskListSaver(taskList);
-        saver.save();
+        saver.saveTo("./xmlfiles/SavedTaskList.xml");
     }
 
     public void handleLoadListButton() {
@@ -134,7 +134,7 @@ public class ToDoListController implements Initializable {
     }
 
     private void SetUpLoader() throws JDOMException, IOException {
-        TaskListLoader loader = new TaskListLoader("./testassets/SavedTaskList.xml");
+        TaskListLoader loader = new TaskListLoader("./xmlfiles/SavedTaskList.xml");
         taskList = loader.load();
         taskTable.setItems(taskList);
     }

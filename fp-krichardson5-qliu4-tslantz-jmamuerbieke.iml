@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/fxml" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/assets" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/testassets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/xmlfiles" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
