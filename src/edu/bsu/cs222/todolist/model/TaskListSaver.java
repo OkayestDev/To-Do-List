@@ -10,17 +10,17 @@ import java.io.IOException;
 
 public class TaskListSaver {
     private ObservableList<Task> taskList;
-    private Document savedTaskList;
+    private Element taskNode;
+    private Document document;
     private Element nameNode;
     private Element descriptionNode;
     private Element dateNode;
-    private Element taskNode;
     private int count;
 
     public TaskListSaver(ObservableList<Task> taskList) throws JDOMException, IOException{
         this.taskList = taskList;
-        savedTaskList = new Document();
-        savedTaskList.setRootElement(new Element("taskList"));
+        document = new Document();
+        document.setRootElement(new Element("taskList"));
         count = 1;
     }
 
@@ -28,13 +28,27 @@ public class TaskListSaver {
         for(Task task : taskList) {
             addToDocument(task);
         }
-        XMLOutputter xmlOutputter = new XMLOutputter();
-        FileOutputStream fileOutputStream = new FileOutputStream("./tasklist/SavedTaskList.xml");
-        xmlOutputter.output(savedTaskList, fileOutputStream);
-        return savedTaskList;
+        OutputDocumentToXml();
+        return document;
     }
 
-    public void newElements() {
+    private void OutputDocumentToXml() throws IOException {
+        XMLOutputter xmlOutputter = new XMLOutputter();
+        FileOutputStream fileOutputStream = new FileOutputStream("./tasklist/SavedTaskList.xml");
+        xmlOutputter.output(document, fileOutputStream);
+    }
+
+    private void addToDocument(Task task) {
+        setUpNodes(task);
+        setNodesToDocument();
+    }
+
+    private void setUpNodes(Task task) {
+        createNodes();
+        setNodes(task);
+    }
+
+    private void createNodes() {
         taskNode = new Element("task_" + count);
         count++;
         nameNode = new Element("name");
@@ -42,21 +56,19 @@ public class TaskListSaver {
         dateNode = new Element("date");
     }
 
-    public void setUpElements(Task task) {
-        newElements();
+    private void setNodes(Task task) {
         String taskName = task.getTaskName();
         String description = task.getDescription();
-//        String date = task.getDate();
+        String date = task.getDate().toString();
         nameNode.setText(taskName);
         descriptionNode.setText(description);
-//        dateNode.setText(date);
+        dateNode.setText(date);
     }
 
-    private void addToDocument(Task task) {
-        setUpElements(task);
+    private void setNodesToDocument() {
         taskNode.addContent(nameNode);
         taskNode.addContent(descriptionNode);
         taskNode.addContent(dateNode);
-        savedTaskList.getRootElement().addContent(taskNode);
+        document.getRootElement().addContent(taskNode);
     }
 }
