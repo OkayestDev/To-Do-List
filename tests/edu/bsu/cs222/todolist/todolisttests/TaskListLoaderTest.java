@@ -14,6 +14,7 @@ import java.time.LocalDate;
 public class TaskListLoaderTest {
     private ObservableList<Task> taskList;
 
+    @SuppressWarnings("OctalInteger, 04 is the time format of LocalDate")
     public TaskListLoaderTest() {
         taskList = FXCollections.observableArrayList();
         LocalDate localDate1 = LocalDate.of(2017, 04, 17);
