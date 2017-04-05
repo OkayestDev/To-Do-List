@@ -35,7 +35,7 @@ public class TaskListLoaderTest {
 
     @Test
     public void testLoad() throws JDOMException, IOException {
-        TaskListLoader loader = new TaskListLoader("./assets/taskListLoadAndSaveTest.xml");
+        TaskListLoader loader = new TaskListLoader("./testassets/TaskListLoaderTest.xml");
         ObservableList<Task> test = loader.load();
         Assert.assertTrue(taskList.get(0).getTaskName().equals(test.get(0).getTaskName()));
         Assert.assertTrue(taskList.get(1).getTaskName().equals(test.get(1).getTaskName()));
