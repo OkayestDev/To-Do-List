@@ -17,7 +17,6 @@ public class TaskListSaver {
     private Element descriptionNode;
     private Element dateNode;
     private int count;
-    private String filePath;
 
     public TaskListSaver(ObservableList<Task> taskList) throws JDOMException, IOException {
         this.taskList = taskList;
