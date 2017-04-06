@@ -1,11 +1,12 @@
 package edu.bsu.cs222.todolist.controller;
 
-import edu.bsu.cs222.todolist.model.Searcher;
+import edu.bsu.cs222.todolist.serialization.Deleter;
+import edu.bsu.cs222.todolist.serialization.Searcher;
 import edu.bsu.cs222.todolist.model.Task;
 import edu.bsu.cs222.todolist.builder.NewTaskPopUpBuilder;
 import edu.bsu.cs222.todolist.builder.CalendarViewBuilder;
-import edu.bsu.cs222.todolist.model.TaskListLoader;
-import edu.bsu.cs222.todolist.model.TaskListSaver;
+import edu.bsu.cs222.todolist.serialization.TaskListLoader;
+import edu.bsu.cs222.todolist.serialization.TaskListSaver;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -99,18 +100,14 @@ public class ToDoListController implements Initializable {
 
     public void handleDeleteSelectedButton() {
         Deleter deleter = new Deleter(taskList);
-        deleter.deleteSelectedTask();
+        deleter.deleteSelectedTasks();
     }
 
     public void handleSaveListButton() {
         Platform.runLater(() -> {
             try {
-                if (!isTaskListEmpty()) {
-                    SetUpSaver(taskList);
-                    setUpAlert("Task list successfully saved", Alert.AlertType.INFORMATION);
-                } else {
-                    setUpAlert("Cannot save an empty task list", Alert.AlertType.ERROR);
-                }
+                SetUpSaver(taskList);
+                setUpAlert("Task list successfully saved", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
                 setUpAlert("Unable to save task list", Alert.AlertType.ERROR);
             }

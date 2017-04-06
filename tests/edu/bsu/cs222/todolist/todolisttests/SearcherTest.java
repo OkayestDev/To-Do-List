@@ -1,6 +1,6 @@
 package edu.bsu.cs222.todolist.todolisttests;
 
-import edu.bsu.cs222.todolist.model.Searcher;
+import edu.bsu.cs222.todolist.serialization.Searcher;
 import edu.bsu.cs222.todolist.model.Task;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

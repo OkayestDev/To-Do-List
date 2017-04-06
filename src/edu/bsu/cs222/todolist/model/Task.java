@@ -1,7 +1,6 @@
 package edu.bsu.cs222.todolist.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Task {
     private String taskName;

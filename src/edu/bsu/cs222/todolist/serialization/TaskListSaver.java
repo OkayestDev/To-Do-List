@@ -1,5 +1,6 @@
-package edu.bsu.cs222.todolist.model;
+package edu.bsu.cs222.todolist.serialization;
 
+import edu.bsu.cs222.todolist.model.Task;
 import javafx.collections.ObservableList;
 import org.jdom2.Document;
 import org.jdom2.Element;

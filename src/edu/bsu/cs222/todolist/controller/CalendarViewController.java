@@ -1,7 +1,7 @@
 package edu.bsu.cs222.todolist.controller;
 
 import com.sun.javafx.scene.control.skin.DatePickerSkin;
-import edu.bsu.cs222.todolist.model.Searcher;
+import edu.bsu.cs222.todolist.serialization.Searcher;
 import edu.bsu.cs222.todolist.model.Task;
 import edu.bsu.cs222.todolist.builder.*;
 import edu.bsu.cs222.todolist.builder.TooltipBuilder;

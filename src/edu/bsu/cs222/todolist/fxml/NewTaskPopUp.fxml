@@ -15,11 +15,9 @@
             <Font size="13.0" />
          </font></Label>
    <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="15.0" prefWidth="600.0">
-      <children>
          <Label layoutX="32.0" layoutY="-1.0" text="Task Name" />
          <Label layoutX="348.0" layoutY="-1.0" text="Date" />
          <Label layoutX="189.0" layoutY="-1.0" text="Description" />
-      </children>
    </AnchorPane>
       <HBox alignment="CENTER" prefHeight="31.0" prefWidth="600.0" spacing="8.0">
             <TextField fx:id="taskNameField" promptText="Enter a New Task" />

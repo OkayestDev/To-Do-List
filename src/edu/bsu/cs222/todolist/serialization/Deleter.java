@@ -1,4 +1,4 @@
-package edu.bsu.cs222.todolist.controller;
+package edu.bsu.cs222.todolist.serialization;
 
 import edu.bsu.cs222.todolist.model.Task;
 import javafx.collections.ObservableList;
@@ -13,14 +13,14 @@ public class Deleter {
         index = taskList.size() - 1;
     }
 
-    public void deleteSelectedTask() {
+    public void deleteSelectedTasks() {
         for (; index > -1; index--) {
             setTaskReference(taskList);
             deleteTask();
         }
     }
 
-    public void setTaskReference(ObservableList<Task> taskList) {
+    private void setTaskReference(ObservableList<Task> taskList) {
         this.taskReference = taskList.get(index);
     }
 

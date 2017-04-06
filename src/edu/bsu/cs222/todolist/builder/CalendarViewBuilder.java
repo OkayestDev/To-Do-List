@@ -22,7 +22,7 @@ public class CalendarViewBuilder {
         {
             try {
                 setTitleAndModality();
-                buildCalendarViewAndLauchStage();
+                buildCalendarViewAndLaunchStage();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -33,7 +33,7 @@ public class CalendarViewBuilder {
         stageBuilder.setTitleAndModality("Calendar View");
     }
 
-    private void buildCalendarViewAndLauchStage(){
+    private void buildCalendarViewAndLaunchStage(){
         calendarViewController.buildCalendar();
         stageBuilder.launchStage();
     }
