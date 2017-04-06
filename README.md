@@ -9,5 +9,8 @@
   * On days with an event, a tooltip will appear if you hover of the highlighted date cells
 * Delete tasks
   * Delete selected tasks from a table of tasks
-  
+* Save data
+  * Being able to save the TaskList to a xml file
+* Load date
+  * Being able to load xml file to task table from a xml file
   *authors:krichardson5, qliu4, tslantz, jmamuerbieke*
