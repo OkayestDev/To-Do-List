@@ -26,7 +26,7 @@ public class Deleter {
 
     private void deleteTask() {
         if (taskReference.isSelected()) {
-            taskList.remove(taskReference);
+            taskList.remove(index);
         }
     }
 }

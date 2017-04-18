@@ -7,7 +7,6 @@ public class Task {
     private String description;
     private LocalDate date;
     private boolean selectStatus;
-
     public static Builder withTaskName(String taskName) {
         return new Builder(taskName);
     }
