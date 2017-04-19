@@ -41,14 +41,22 @@ public class TaskListSaver {
     }
 
     public Document saveTo(String filePath) throws JDOMException, IOException {
+        saveTaskList();
+        saveCompletedTaskList();
+        OutputDocumentToXml(filePath);
+        return document;
+    }
+
+    private void saveTaskList() {
         for (Task task : taskList) {
             addToDocument(task, taskListParentNode);
         }
+    }
+
+    private void saveCompletedTaskList() {
         for (Task task : completedTaskList) {
             addToDocument(task, completedTaskListParentNode);
         }
-        OutputDocumentToXml(filePath);
-        return document;
     }
 
     private void OutputDocumentToXml(String filePath) throws IOException {
