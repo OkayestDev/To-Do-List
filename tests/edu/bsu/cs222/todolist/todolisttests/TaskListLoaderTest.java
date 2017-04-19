@@ -54,6 +54,6 @@ public class TaskListLoaderTest {
 
     private void loadXml() throws JDOMException, IOException {
         TaskListLoader loader = new TaskListLoader("./testassets/TaskListLoaderTest.xml");
-        taskListForVerify = loader.load();
+        taskListForVerify = loader.loadTaskList();
     }
 }

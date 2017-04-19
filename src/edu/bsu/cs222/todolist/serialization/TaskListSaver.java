@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
+import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import java.io.FileOutputStream;
@@ -12,23 +13,39 @@ import java.io.IOException;
 
 public class TaskListSaver {
     private ObservableList<Task> taskList;
+    private ObservableList<Task> completedTaskList;
     private Document document;
+    private Element taskListParentNode;
+    private Element completedTaskListParentNode;
     private Element taskNode;
     private Element nameNode;
     private Element descriptionNode;
     private Element dateNode;
     private int count;
 
-    public TaskListSaver(ObservableList<Task> taskList) throws JDOMException, IOException {
+    public TaskListSaver(ObservableList<Task> taskList, ObservableList<Task> completedTaskList) throws JDOMException, IOException {
         this.taskList = taskList;
+        this.completedTaskList = completedTaskList;
         document = new Document();
-        document.setRootElement(new Element("taskList"));
+        taskListParentNode = new Element("taskList");
+        completedTaskListParentNode = new Element("completedTaskList");
+        setUpRootElement();
         count = 1;
+    }
+
+    private void setUpRootElement() {
+        Element rootElement = new Element("savedTaskList");
+        rootElement.addContent(taskListParentNode);
+        rootElement.addContent(completedTaskListParentNode);
+        document.setRootElement(rootElement);
     }
 
     public Document saveTo(String filePath) throws JDOMException, IOException {
         for (Task task : taskList) {
-            addToDocument(task);
+            addToDocument(task, taskListParentNode);
+        }
+        for (Task task : completedTaskList) {
+            addToDocument(task, completedTaskListParentNode);
         }
         OutputDocumentToXml(filePath);
         return document;
@@ -36,13 +53,14 @@ public class TaskListSaver {
 
     private void OutputDocumentToXml(String filePath) throws IOException {
         XMLOutputter xmlOutputter = new XMLOutputter();
+        xmlOutputter.setFormat(Format.getPrettyFormat());
         FileOutputStream fileOutputStream = new FileOutputStream(filePath);
         xmlOutputter.output(document, fileOutputStream);
     }
 
-    private void addToDocument(Task task) {
+    private void addToDocument(Task task, Element currentList) {
         setUpNodes(task);
-        setNodesToDocument();
+        setNodesToList(currentList);
     }
 
     private void setUpNodes(Task task) {
@@ -67,10 +85,10 @@ public class TaskListSaver {
         dateNode.setText(date);
     }
 
-    private void setNodesToDocument() {
+    private void setNodesToList(Element currentList) {
         taskNode.addContent(nameNode);
         taskNode.addContent(descriptionNode);
         taskNode.addContent(dateNode);
-        document.getRootElement().addContent(taskNode);
+        currentList.addContent(taskNode);
     }
 }

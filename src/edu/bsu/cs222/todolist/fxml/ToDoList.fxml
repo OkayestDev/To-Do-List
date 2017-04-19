@@ -2,14 +2,16 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs222.todolist.controller.ToDoListController">
-      <HBox alignment="CENTER_RIGHT" fillHeight="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" prefWidth="850.0" spacing="10.0">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs222.todolist.controller.ToDoListController">
+      <HBox alignment="CENTER_RIGHT" fillHeight="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" spacing="7.0">
       <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="265.0" spacing="10.0">
             <Button mnemonicParsing="false" onAction="#handleSaveListButton" text="Save List" />
             <Button mnemonicParsing="false" onAction="#handleLoadListButton" text="Load List" />
@@ -20,10 +22,41 @@
             <Insets />
          </opaqueInsets></Button>
             <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleAddTaskButton" text="Add Task" />
-            <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleShowCalendarButton" text="Show Calendar" />
-            <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleDeleteSelectedButton" text="Delete Selected" />
+      <MenuButton fx:id="viewMenu" mnemonicParsing="false" prefWidth="124.0" text="Incomplete Tasks">
+        <items>
+          <MenuItem mnemonicParsing="false">
+               <graphic>
+                        <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleShowCalendarButton" text="Show Calendar" />
+               </graphic>
+            </MenuItem>
+          <MenuItem mnemonicParsing="false">
+               <graphic>
+                  <Button mnemonicParsing="false" onAction="#handleShowCompletedTaskList" text="Show Completed Task List" />
+               </graphic>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false">
+               <graphic>
+                  <Button mnemonicParsing="false" onAction="#handleShowTaskList" text="Show Incomplete Task List" />
+               </graphic>
+            </MenuItem>
+        </items>
+      </MenuButton>
+      <MenuButton mnemonicParsing="false" text="Selection">
+        <items>
+          <MenuItem mnemonicParsing="false">
+               <graphic>
+                        <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleDeleteSelectedButton" text="Delete Selected" />
+               </graphic>
+            </MenuItem>
+          <MenuItem mnemonicParsing="false">
+               <graphic>
+                  <Button mnemonicParsing="false" onAction="#handleCompleteSelected" text="Complete Selected" />
+               </graphic>
+            </MenuItem>
+        </items>
+      </MenuButton>
       <padding>
-         <Insets right="5.0" />
+         <Insets left="5.0" right="5.0" />
       </padding>
       </HBox>
       <TableView fx:id="taskTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
@@ -31,7 +64,7 @@
           <TableColumn fx:id="taskColumn" minWidth="-1.0" prefWidth="200.0" resizable="false" text="Task" />
           <TableColumn fx:id="descriptionColumn" prefWidth="400.0" resizable="false" text="Description" />
             <TableColumn fx:id="dateColumn" minWidth="0.0" prefWidth="169.0" resizable="false" text="Date" />
-         <TableColumn fx:id="deleteColumn" text="Select" />
+         <TableColumn fx:id="selectColumn" minWidth="-1.0" prefWidth="92.0" text="Select" />
         </columns>
       </TableView>
 </VBox>
