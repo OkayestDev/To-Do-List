@@ -30,7 +30,7 @@ public class MarkAsCompleteTest {
     public void testMarkAsComplete() {
         setUp();
         MarkAsComplete markAsComplete = new MarkAsComplete(entireTaskList);
-        ObservableList<Task> testList = markAsComplete.makeMarkAsCompleteList();
+        ObservableList<Task> testList = markAsComplete.makeCompletedTasksList();
         Assert.assertTrue(testList.get(0).getTaskName().equals(completedTaskList.get(0).getTaskName()));
     }
 }

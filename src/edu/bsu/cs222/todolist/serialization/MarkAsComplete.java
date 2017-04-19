@@ -11,7 +11,7 @@ public class MarkAsComplete {
         this.taskList = taskList;
     }
 
-    public ObservableList<Task> makeMarkAsCompleteList() {
+    public ObservableList<Task> makeCompletedTasksList() {
         ObservableList<Task> completedTaskList = FXCollections.observableArrayList();
         for (Task task : taskList) {
             if (task.isSelected()) {

@@ -9,7 +9,6 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.junit.Assert;
 import org.junit.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -64,7 +63,7 @@ public class TaskListSaverTest {
     }
 
     private void saveXml() throws JDOMException, IOException {
-        TaskListSaver saver = new TaskListSaver(taskList);
+        TaskListSaver saver = new TaskListSaver(taskList, null);
         savedDocument = saver.saveTo("./testassets/TaskListSaverTest.xml");
     }
 }

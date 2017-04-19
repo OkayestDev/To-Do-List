@@ -12,7 +12,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.jdom2.JDOMException;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,12 +34,14 @@ public class ToDoListController implements Initializable {
     @FXML
     private MenuButton viewMenu;
     private boolean filteredStatus;
+    private boolean incompleteTaskViewStatus;
     private ObservableList<Task> taskList = FXCollections.observableArrayList();
     private ObservableList<Task> completedTaskList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         filteredStatus = false;
+        incompleteTaskViewStatus = false;
         taskColumn.setCellValueFactory(new PropertyValueFactory<>("TaskName"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("Date"));
@@ -62,7 +63,7 @@ public class ToDoListController implements Initializable {
         if (isFilteredListView() && isSearchFieldEmpty() && !isTaskListEmpty()) {
             switchToFilteredListView(getFilteredList());
         } else if (isSearchFieldEmpty()) {
-            switchToTaskListView();
+            resetToDoList();
         }
     }
 
@@ -78,26 +79,43 @@ public class ToDoListController implements Initializable {
         return taskList.size() == 0;
     }
 
+    private ObservableList<Task> getFilteredList() {
+        Searcher newSearcher;
+        if (incompleteTaskViewStatus) {
+            newSearcher = new Searcher(taskList);
+        }
+        else {
+            newSearcher = new Searcher(completedTaskList);
+        }
+        return newSearcher.filterList(searchField.getText());
+    }
+
     private void switchToFilteredListView(ObservableList<Task> filteredList) {
         taskTable.setItems(filteredList);
         searchButton.setText("Remove Filter");
         filteredStatus = !filteredStatus;
     }
 
-    private ObservableList<Task> getFilteredList() {
-        Searcher newSearcher = new Searcher(taskList);
-        return newSearcher.filterList(searchField.getText());
-    }
-
-    private void switchToTaskListView() {
-        filteredStatus = !filteredStatus;
-        taskTable.setItems(taskList);
+    private void resetToDoList() {
+        filteredStatus = false;
+        if (incompleteTaskViewStatus) {
+            taskTable.setItems(taskList);
+        }
+        else {
+            taskTable.setItems(completedTaskList);
+        }
         searchButton.setText("Search Tasks");
         searchField.setText("");
     }
 
     public void handleDeleteSelectedButton() {
-        Deleter deleter = new Deleter(taskList);
+        Deleter deleter;
+        if (incompleteTaskViewStatus) {
+            deleter = new Deleter(taskList);
+        }
+        else {
+            deleter = new Deleter(completedTaskList);
+        }
         deleter.deleteSelectedTasks();
     }
 
@@ -107,13 +125,14 @@ public class ToDoListController implements Initializable {
                 SetUpSaver(taskList);
                 setUpAlert("Task list successfully saved", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
+                e.printStackTrace();
                 setUpAlert("Unable to save task list", Alert.AlertType.ERROR);
             }
         });
     }
 
     private void SetUpSaver(ObservableList<Task> taskList) throws JDOMException, IOException {
-        TaskListSaver saver = new TaskListSaver(taskList);
+        TaskListSaver saver = new TaskListSaver(taskList, completedTaskList);
         saver.saveTo("./xmlfiles/SavedTaskList.xml");
     }
 
@@ -123,6 +142,7 @@ public class ToDoListController implements Initializable {
                 SetUpLoader();
                 setUpAlert("Task list successfully loaded", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
+                e.printStackTrace();
                 setUpAlert("Couldn't load task list", Alert.AlertType.ERROR);
             }
         });
@@ -130,24 +150,29 @@ public class ToDoListController implements Initializable {
 
     public void handleCompleteSelected() {
         MarkAsComplete markAsComplete = new MarkAsComplete(taskList);
-        ObservableList<Task> moreCompletedTasks = markAsComplete.makeMarkAsCompleteList();
+        ObservableList<Task> moreCompletedTasks = markAsComplete.makeCompletedTasksList();
         completedTaskList.addAll(moreCompletedTasks);
         taskList.removeAll(moreCompletedTasks);
     }
 
     public void handleShowCompletedTaskList() {
+        resetToDoList();
+        incompleteTaskViewStatus = false;
         viewMenu.setText("Completed Tasks");
         taskTable.setItems(completedTaskList);
     }
 
     public void handleShowTaskList() {
+        resetToDoList();
+        incompleteTaskViewStatus = true;
         viewMenu.setText("Incomplete Tasks");
         taskTable.setItems(taskList);
     }
 
     private void SetUpLoader() throws JDOMException, IOException {
         TaskListLoader loader = new TaskListLoader("./xmlfiles/SavedTaskList.xml");
-        taskList = loader.load();
+        taskList = loader.loadTaskList();
+        completedTaskList = loader.loadCompletedTaskList();
         taskTable.setItems(taskList);
     }
 
