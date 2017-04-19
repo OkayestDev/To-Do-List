@@ -9,6 +9,8 @@
   * On days with an event, a tooltip will appear if you hover of the highlighted date cells
 * Delete tasks
   * Delete selected tasks from a table of tasks
+* Mark tasks as complete
+  * Mark selected tasks as complete which are stored in completed task list
 * Save data
   * Being able to save the TaskList to a xml file
 * Load date
