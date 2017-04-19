@@ -1,14 +1,14 @@
 package edu.bsu.cs222.todolist.todolisttests;
 
 import edu.bsu.cs222.todolist.model.Task;
-import edu.bsu.cs222.todolist.serialization.MarkAsComplete;
+import edu.bsu.cs222.todolist.serialization.CompletedTaskListGenerator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.junit.Assert;
 import org.junit.Test;
 import java.time.LocalDate;
 
-public class MarkAsCompleteTest {
+public class CompletedTaskListGeneratorTest {
     private ObservableList<Task> entireTaskList = FXCollections.observableArrayList();
     private ObservableList<Task> completedTaskList = FXCollections.observableArrayList();
 
@@ -29,8 +29,8 @@ public class MarkAsCompleteTest {
     @Test
     public void testMarkAsComplete() {
         setUp();
-        MarkAsComplete markAsComplete = new MarkAsComplete(entireTaskList);
-        ObservableList<Task> testList = markAsComplete.makeCompletedTasksList();
+        CompletedTaskListGenerator completedTaskListGenerator = new CompletedTaskListGenerator(entireTaskList);
+        ObservableList<Task> testList = completedTaskListGenerator.generate();
         Assert.assertTrue(testList.get(0).getTaskName().equals(completedTaskList.get(0).getTaskName()));
     }
 }

@@ -10,7 +10,6 @@ import javafx.util.Callback;
 
 public class CheckBoxBuilder implements Callback<TableColumn.CellDataFeatures<Task, CheckBox>, ObservableValue<CheckBox>> {
     private CheckBox checkBox;
-    TableView<Task> taskTable;
     @Override
     public ObservableValue<CheckBox> call(TableColumn.CellDataFeatures<Task, CheckBox> param) {
         setTask(param);

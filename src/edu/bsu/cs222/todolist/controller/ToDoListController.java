@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.jdom2.JDOMException;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -63,7 +64,7 @@ public class ToDoListController implements Initializable {
         if (isFilteredListView() && isSearchFieldEmpty() && !isTaskListEmpty()) {
             switchToFilteredListView(getFilteredList());
         } else if (isSearchFieldEmpty()) {
-            resetToDoList();
+            resetToDoListView();
         }
     }
 
@@ -79,44 +80,57 @@ public class ToDoListController implements Initializable {
         return taskList.size() == 0;
     }
 
-    private ObservableList<Task> getFilteredList() {
-        Searcher newSearcher;
-        if (incompleteTaskViewStatus) {
-            newSearcher = new Searcher(taskList);
-        }
-        else {
-            newSearcher = new Searcher(completedTaskList);
-        }
-        return newSearcher.filterList(searchField.getText());
-    }
-
     private void switchToFilteredListView(ObservableList<Task> filteredList) {
         taskTable.setItems(filteredList);
         searchButton.setText("Remove Filter");
         filteredStatus = !filteredStatus;
     }
 
-    private void resetToDoList() {
-        filteredStatus = false;
+    private ObservableList<Task> getFilteredList() {
+        Searcher searcher;
+        searcher = constructSearcher();
+        return searcher.filterList(searchField.getText());
+    }
+
+    private Searcher constructSearcher() {
         if (incompleteTaskViewStatus) {
-            taskTable.setItems(taskList);
+            return new Searcher(taskList);
+        } else {
+            return new Searcher(completedTaskList);
         }
-        else {
-            taskTable.setItems(completedTaskList);
-        }
+    }
+
+    private void resetToDoListView() {
+        filteredStatus = false;
+        resetTaskView();
+        resetSearchFieldAndButton();
+    }
+
+    private void resetSearchFieldAndButton() {
         searchButton.setText("Search Tasks");
         searchField.setText("");
     }
 
+    private void resetTaskView() {
+        if (incompleteTaskViewStatus) {
+            taskTable.setItems(taskList);
+        } else {
+            taskTable.setItems(completedTaskList);
+        }
+    }
+
     public void handleDeleteSelectedButton() {
         Deleter deleter;
-        if (incompleteTaskViewStatus) {
-            deleter = new Deleter(taskList);
-        }
-        else {
-            deleter = new Deleter(completedTaskList);
-        }
+        deleter = constructDeleter();
         deleter.deleteSelectedTasks();
+    }
+
+    private Deleter constructDeleter() {
+        if (incompleteTaskViewStatus) {
+            return new Deleter(taskList);
+        } else {
+            return new Deleter(completedTaskList);
+        }
     }
 
     public void handleSaveListButton() {
@@ -149,21 +163,37 @@ public class ToDoListController implements Initializable {
     }
 
     public void handleCompleteSelected() {
-        MarkAsComplete markAsComplete = new MarkAsComplete(taskList);
-        ObservableList<Task> moreCompletedTasks = markAsComplete.makeCompletedTasksList();
-        completedTaskList.addAll(moreCompletedTasks);
-        taskList.removeAll(moreCompletedTasks);
+        setCompletedTaskList();
+        removeCompletedTasksFromTaskList();
+    }
+
+    private void setCompletedTaskList() {
+        CompletedTaskListGenerator completedTaskListGenerator = new CompletedTaskListGenerator(taskList);
+        ObservableList<Task> completedTaskList = completedTaskListGenerator.generate();
+        this.completedTaskList.addAll(completedTaskList);
+    }
+
+    private void removeCompletedTasksFromTaskList() {
+        taskList.removeAll(completedTaskList);
     }
 
     public void handleShowCompletedTaskList() {
-        resetToDoList();
+        resetToDoListView();
+        setCompletedTaskListView();
+    }
+
+    private void setCompletedTaskListView() {
         incompleteTaskViewStatus = false;
         viewMenu.setText("Completed Tasks");
         taskTable.setItems(completedTaskList);
     }
 
     public void handleShowTaskList() {
-        resetToDoList();
+        resetToDoListView();
+        setIncompleteTasksView();
+    }
+
+    private void setIncompleteTasksView() {
         incompleteTaskViewStatus = true;
         viewMenu.setText("Incomplete Tasks");
         taskTable.setItems(taskList);
