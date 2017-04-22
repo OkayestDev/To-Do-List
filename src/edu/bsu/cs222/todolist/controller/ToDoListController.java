@@ -139,7 +139,6 @@ public class ToDoListController implements Initializable {
                 SetUpSaver(taskList);
                 setUpAlert("Task list successfully saved", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
-                e.printStackTrace();
                 setUpAlert("Unable to save task list", Alert.AlertType.ERROR);
             }
         });
@@ -156,18 +155,17 @@ public class ToDoListController implements Initializable {
                 SetUpLoader();
                 setUpAlert("Task list successfully loaded", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
-                e.printStackTrace();
                 setUpAlert("Couldn't load task list", Alert.AlertType.ERROR);
             }
         });
     }
 
     public void handleCompleteSelected() {
-        setCompletedTaskList();
+        setUpCompletedTaskList();
         removeCompletedTasksFromTaskList();
     }
 
-    private void setCompletedTaskList() {
+    private void setUpCompletedTaskList() {
         CompletedTaskListGenerator completedTaskListGenerator = new CompletedTaskListGenerator(taskList);
         ObservableList<Task> completedTaskList = completedTaskListGenerator.generate();
         this.completedTaskList.addAll(completedTaskList);
@@ -190,10 +188,10 @@ public class ToDoListController implements Initializable {
 
     public void handleShowTaskList() {
         resetToDoListView();
-        setIncompleteTasksView();
+        setUpIncompleteTasksView();
     }
 
-    private void setIncompleteTasksView() {
+    private void setUpIncompleteTasksView() {
         incompleteTaskViewStatus = true;
         viewMenu.setText("Incomplete Tasks");
         taskTable.setItems(taskList);
@@ -210,5 +208,14 @@ public class ToDoListController implements Initializable {
         Alert alert = new Alert(alertType);
         alert.setHeaderText(headerText);
         alert.showAndWait();
+    }
+
+    public void setTaskList(ObservableList<Task> taskList) {
+        this.taskList = taskList;
+        taskTable.setItems(taskList);
+    }
+
+    public void setCompletedTaskList(ObservableList<Task> completedTaskList) {
+        this.completedTaskList = completedTaskList;
     }
 }
