@@ -55,7 +55,7 @@ public class ToDoListController implements Initializable {
 
     private void setUpFilePath() {
         String userHome = System.getProperty("user.home");
-        filePath = userHome + File.separator + "ToDoList";
+        filePath = userHome + File.separator + "TaskList";
     }
 
     private void autoLoad() {
@@ -156,7 +156,6 @@ public class ToDoListController implements Initializable {
                 setUpSaver();
                 setUpAlert("Task list successfully saved\nSaved to: " + filePath, Alert.AlertType.INFORMATION);
             } catch (Exception e) {
-                e.printStackTrace();
                 setUpAlert("Unable to save task list", Alert.AlertType.ERROR);
             }
         });
