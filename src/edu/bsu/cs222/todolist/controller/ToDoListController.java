@@ -41,6 +41,7 @@ public class ToDoListController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        autoLoad();
         filteredStatus = false;
         incompleteTaskViewStatus = false;
         taskColumn.setCellValueFactory(new PropertyValueFactory<>("TaskName"));
@@ -48,6 +49,15 @@ public class ToDoListController implements Initializable {
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("Date"));
         selectColumn.setCellValueFactory(new edu.bsu.cs222.todolist.builder.CheckBoxBuilder());
         taskTable.setItems(taskList);
+    }
+
+    private void autoLoad() {
+        try {
+            TaskListLoader loader = new TaskListLoader("./xmlfiles/SavedTaskList.xml");
+            setTaskList(loader.loadTaskList());
+            setCompletedTaskList(loader.loadCompletedTaskList());
+        }
+        catch(Exception e) {}
     }
 
     public void handleAddTaskButton() {
@@ -136,7 +146,7 @@ public class ToDoListController implements Initializable {
     public void handleSaveListButton() {
         Platform.runLater(() -> {
             try {
-                SetUpSaver(taskList);
+                setUpSaver();
                 setUpAlert("Task list successfully saved", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
                 setUpAlert("Unable to save task list", Alert.AlertType.ERROR);
@@ -144,7 +154,7 @@ public class ToDoListController implements Initializable {
         });
     }
 
-    private void SetUpSaver(ObservableList<Task> taskList) throws JDOMException, IOException {
+    private void setUpSaver() throws JDOMException, IOException {
         TaskListSaver saver = new TaskListSaver(taskList, completedTaskList);
         saver.saveTo("./xmlfiles/SavedTaskList.xml");
     }
@@ -152,7 +162,7 @@ public class ToDoListController implements Initializable {
     public void handleLoadListButton() {
         Platform.runLater(() -> {
             try {
-                SetUpLoader();
+                setUpLoader();
                 setUpAlert("Task list successfully loaded", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
                 setUpAlert("Couldn't load task list", Alert.AlertType.ERROR);
@@ -197,7 +207,7 @@ public class ToDoListController implements Initializable {
         taskTable.setItems(taskList);
     }
 
-    private void SetUpLoader() throws JDOMException, IOException {
+    private void setUpLoader() throws JDOMException, IOException {
         TaskListLoader loader = new TaskListLoader("./xmlfiles/SavedTaskList.xml");
         taskList = loader.loadTaskList();
         completedTaskList = loader.loadCompletedTaskList();
