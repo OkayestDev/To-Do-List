@@ -12,7 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.jdom2.JDOMException;
-
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -38,9 +38,11 @@ public class ToDoListController implements Initializable {
     private boolean incompleteTaskViewStatus;
     private ObservableList<Task> taskList = FXCollections.observableArrayList();
     private ObservableList<Task> completedTaskList = FXCollections.observableArrayList();
+    private String filePath;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        setUpFilePath();
         autoLoad();
         filteredStatus = false;
         incompleteTaskViewStatus = false;
@@ -51,9 +53,14 @@ public class ToDoListController implements Initializable {
         taskTable.setItems(taskList);
     }
 
+    private void setUpFilePath() {
+        String userHome = System.getProperty("user.home");
+        filePath = userHome + File.separator + "ToDoList";
+    }
+
     private void autoLoad() {
         try {
-            TaskListLoader loader = new TaskListLoader("./xmlfiles/SavedTaskList.xml");
+            TaskListLoader loader = new TaskListLoader(filePath);
             setTaskList(loader.loadTaskList());
             setCompletedTaskList(loader.loadCompletedTaskList());
         }
@@ -147,8 +154,9 @@ public class ToDoListController implements Initializable {
         Platform.runLater(() -> {
             try {
                 setUpSaver();
-                setUpAlert("Task list successfully saved", Alert.AlertType.INFORMATION);
+                setUpAlert("Task list successfully saved\nSaved to: " + filePath, Alert.AlertType.INFORMATION);
             } catch (Exception e) {
+                e.printStackTrace();
                 setUpAlert("Unable to save task list", Alert.AlertType.ERROR);
             }
         });
@@ -156,7 +164,7 @@ public class ToDoListController implements Initializable {
 
     private void setUpSaver() throws JDOMException, IOException {
         TaskListSaver saver = new TaskListSaver(taskList, completedTaskList);
-        saver.saveTo("./xmlfiles/SavedTaskList.xml");
+        saver.saveTo(filePath);
     }
 
     public void handleLoadListButton() {
@@ -208,7 +216,7 @@ public class ToDoListController implements Initializable {
     }
 
     private void setUpLoader() throws JDOMException, IOException {
-        TaskListLoader loader = new TaskListLoader("./xmlfiles/SavedTaskList.xml");
+        TaskListLoader loader = new TaskListLoader(filePath);
         taskList = loader.loadTaskList();
         completedTaskList = loader.loadCompletedTaskList();
         taskTable.setItems(taskList);
