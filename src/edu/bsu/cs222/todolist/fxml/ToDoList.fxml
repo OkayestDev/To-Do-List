@@ -13,8 +13,30 @@
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs222.todolist.controller.ToDoListController">
       <HBox alignment="CENTER_RIGHT" fillHeight="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="37.0" spacing="7.0">
       <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="265.0" spacing="10.0">
-            <Button mnemonicParsing="false" onAction="#handleSaveListButton" text="Save List" />
-            <Button mnemonicParsing="false" onAction="#handleLoadListButton" text="Load List" />
+         <MenuButton mnemonicParsing="false" text="Task List">
+           <items>
+             <MenuItem mnemonicParsing="false">
+                  <graphic>
+                        <Button mnemonicParsing="false" onAction="#handleSaveListButton" text="Save list" />
+                  </graphic>
+               </MenuItem>
+               <MenuItem mnemonicParsing="false">
+                  <graphic>
+                     <Button mnemonicParsing="false" onAction="#handleSaveAsButton" text="Save as" />
+                  </graphic>
+               </MenuItem>
+             <MenuItem mnemonicParsing="false">
+                  <graphic>
+                        <Button mnemonicParsing="false" onAction="#handleLoadLastSaveButton" text="Load last save" />
+                  </graphic>
+               </MenuItem>
+               <MenuItem mnemonicParsing="false">
+                  <graphic>
+                     <Button mnemonicParsing="false" onAction="#handleLoadAListButton" text="Load a list" />
+                  </graphic>
+               </MenuItem>
+           </items>
+         </MenuButton>
       </HBox>
             <TextField fx:id="searchField" prefHeight="25.0" prefWidth="182.0" promptText="search for a task" />
             <Button fx:id="searchButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleSearchTasksButton" text="Search Tasks">
