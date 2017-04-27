@@ -1,5 +1,6 @@
 package edu.bsu.cs222.todolist.controller;
 
+import edu.bsu.cs222.todolist.builder.FileChooserBuilder;
 import edu.bsu.cs222.todolist.serialization.*;
 import edu.bsu.cs222.todolist.model.Task;
 import edu.bsu.cs222.todolist.builder.NewTaskPopUpBuilder;
@@ -12,9 +13,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.jdom2.JDOMException;
-
-import java.io.IOException;
+import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class ToDoListController implements Initializable {
@@ -38,9 +40,11 @@ public class ToDoListController implements Initializable {
     private boolean incompleteTaskViewStatus;
     private ObservableList<Task> taskList = FXCollections.observableArrayList();
     private ObservableList<Task> completedTaskList = FXCollections.observableArrayList();
+    private String filePath;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        autoLoad();
         filteredStatus = false;
         incompleteTaskViewStatus = false;
         taskColumn.setCellValueFactory(new PropertyValueFactory<>("TaskName"));
@@ -48,6 +52,15 @@ public class ToDoListController implements Initializable {
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("Date"));
         selectColumn.setCellValueFactory(new edu.bsu.cs222.todolist.builder.CheckBoxBuilder());
         taskTable.setItems(taskList);
+    }
+
+    private void autoLoad() {
+        try {
+            TaskListLoader loader = new TaskListLoader(getLastFilePath());
+            setTaskList(loader.loadTaskList());
+            setCompletedTaskList(loader.loadCompletedTaskList());
+        }
+        catch(Exception e) {}
     }
 
     public void handleAddTaskButton() {
@@ -136,28 +149,82 @@ public class ToDoListController implements Initializable {
     public void handleSaveListButton() {
         Platform.runLater(() -> {
             try {
-                SetUpSaver(taskList);
-                setUpAlert("Task list successfully saved", Alert.AlertType.INFORMATION);
+                setUpSaver(getLastFilePath());
+                setUpAlert("Task list successfully saved\nSaved to: " + filePath, Alert.AlertType.INFORMATION);
             } catch (Exception e) {
                 setUpAlert("Unable to save task list", Alert.AlertType.ERROR);
             }
         });
     }
 
-    private void SetUpSaver(ObservableList<Task> taskList) throws JDOMException, IOException {
-        TaskListSaver saver = new TaskListSaver(taskList, completedTaskList);
-        saver.saveTo("./xmlfiles/SavedTaskList.xml");
+    public void setLastFilePath() throws IOException{
+        Properties lastFilePath = new Properties();
+        OutputStream outputStream = new FileOutputStream("LastFilePath.properties");
+        lastFilePath.setProperty("LastFilePath", filePath);
+        lastFilePath.store(outputStream, null);
     }
 
-    public void handleLoadListButton() {
+    public String getLastFilePath() throws IOException{
+        Properties lastFilePath = new Properties();
+//        InputStream inputStream = new FileInputStream("LastFilePath.properties");
+//        lastFilePath.load(inputStream);
+//        filePath = lastFilePath.getProperty("LastFilePath");
+
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        InputStream input = classLoader.getResourceAsStream("../LastFile.properties");
+        System.out.println(input.toString());
+        lastFilePath.load(input);
+        filePath = lastFilePath.getProperty("LastFilePath");
+        return filePath;
+    }
+
+    public void handleSaveAsButton() {
+        try {
+            FileChooserBuilder fileChooserBuilder = new FileChooserBuilder();
+            fileChooserBuilder.showSaveDialog();
+            filePath = fileChooserBuilder.getFilePath();
+            setUpSaver(filePath);
+            setLastFilePath();
+        }
+        catch(Exception e) {
+            
+        }
+    }
+
+    private void setUpSaver(String filePath) throws JDOMException, IOException {
+        TaskListSaver saver = new TaskListSaver(taskList, completedTaskList);
+        saver.saveTo(filePath);
+    }
+
+    public void handleLoadLastSaveButton() {
         Platform.runLater(() -> {
             try {
-                SetUpLoader();
+                setUpLoader(getLastFilePath());
                 setUpAlert("Task list successfully loaded", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
                 setUpAlert("Couldn't load task list", Alert.AlertType.ERROR);
             }
         });
+    }
+
+    public void handleLoadAListButton() throws JDOMException, IOException, URISyntaxException {
+        try {
+            FileChooserBuilder fileChooserBuilder = new FileChooserBuilder();
+            fileChooserBuilder.showOpenDialog();
+            filePath = fileChooserBuilder.getFilePath();
+            setUpLoader(filePath);
+            setLastFilePath();
+        }
+        catch (Exception e) {
+
+        }
+    }
+
+    private void setUpLoader(String filePath) throws JDOMException, IOException {
+        TaskListLoader loader = new TaskListLoader(filePath);
+        taskList = loader.loadTaskList();
+        completedTaskList = loader.loadCompletedTaskList();
+        taskTable.setItems(taskList);
     }
 
     public void handleCompleteSelected() {
@@ -197,12 +264,7 @@ public class ToDoListController implements Initializable {
         taskTable.setItems(taskList);
     }
 
-    private void SetUpLoader() throws JDOMException, IOException {
-        TaskListLoader loader = new TaskListLoader("./xmlfiles/SavedTaskList.xml");
-        taskList = loader.loadTaskList();
-        completedTaskList = loader.loadCompletedTaskList();
-        taskTable.setItems(taskList);
-    }
+
 
     private void setUpAlert(String headerText, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);

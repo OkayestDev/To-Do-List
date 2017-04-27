@@ -22,7 +22,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" exported="" name="jdom-2.0.6" level="project" />
     <orderEntry type="library" exported="" name="org.jdom:jdom2:2.0.6" level="application" />
     <orderEntry type="library" exported="" name="jdom2-2.0.6-javadoc" level="project" />
     <orderEntry type="module-library" exported="">
