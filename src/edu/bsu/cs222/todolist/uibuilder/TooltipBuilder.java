@@ -1,4 +1,4 @@
-package edu.bsu.cs222.todolist.builder;
+package edu.bsu.cs222.todolist.uibuilder;
 
 import edu.bsu.cs222.todolist.model.Task;
 import javafx.collections.ObservableList;

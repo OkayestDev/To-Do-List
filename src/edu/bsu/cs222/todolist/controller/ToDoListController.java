@@ -1,10 +1,10 @@
 package edu.bsu.cs222.todolist.controller;
 
-import edu.bsu.cs222.todolist.builder.FileChooserBuilder;
+import edu.bsu.cs222.todolist.uibuilder.FileChooserBuilder;
 import edu.bsu.cs222.todolist.serialization.*;
 import edu.bsu.cs222.todolist.model.Task;
-import edu.bsu.cs222.todolist.builder.NewTaskPopUpBuilder;
-import edu.bsu.cs222.todolist.builder.CalendarViewBuilder;
+import edu.bsu.cs222.todolist.uibuilder.NewTaskPopUpBuilder;
+import edu.bsu.cs222.todolist.uibuilder.CalendarViewBuilder;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,7 +41,6 @@ public class ToDoListController implements Initializable {
     private ObservableList<Task> taskList = FXCollections.observableArrayList();
     private ObservableList<Task> completedTaskList = FXCollections.observableArrayList();
     private String filePath;
-    Deleter deleter;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,7 +50,7 @@ public class ToDoListController implements Initializable {
         taskColumn.setCellValueFactory(new PropertyValueFactory<>("TaskName"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("Date"));
-        selectColumn.setCellValueFactory(new edu.bsu.cs222.todolist.builder.CheckBoxBuilder());
+        selectColumn.setCellValueFactory(new edu.bsu.cs222.todolist.uibuilder.CheckBoxBuilder());
         taskTable.setItems(taskList);
     }
 
@@ -61,7 +60,19 @@ public class ToDoListController implements Initializable {
             setTaskList(loader.loadTaskList());
             setCompletedTaskList(loader.loadCompletedTaskList());
         }
-        catch(Exception e) {}
+        catch(Exception ignored) {}
+    }
+
+    private String getLastFilePath() throws IOException {
+        Properties lastFilePathTable = new Properties();
+        lastFilePathTable.load(getFilePathInputStream());
+        filePath = lastFilePathTable.getProperty("LastFilePath");
+        return filePath;
+    }
+
+    private InputStream getFilePathInputStream() {
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        return classLoader.getResourceAsStream("../LastFile.properties");
     }
 
     public void handleAddTaskButton() {
@@ -134,18 +145,17 @@ public class ToDoListController implements Initializable {
     }
 
     public void handleDeleteSelectedButton() {
-        constructDeleter();
+        Deleter deleter;
+        deleter = constructDeleter();
+        deleter.deleteSelectedTasks();
     }
 
-    private void constructDeleter() {
+    private Deleter constructDeleter() {
         if (incompleteTaskViewStatus) {
-            deleter = new Deleter(taskList);
-            taskList = deleter.deleteSelectedTasks();
+            return new Deleter(taskList);
         } else {
-            deleter = new Deleter(completedTaskList);
-            completedTaskList = deleter.deleteSelectedTasks();
+            return new Deleter(completedTaskList);
         }
-        resetTaskView();
     }
 
     public void handleSaveListButton() {
@@ -159,21 +169,6 @@ public class ToDoListController implements Initializable {
         });
     }
 
-    public void setLastFilePath() throws IOException{
-        Properties lastFilePath = new Properties();
-        OutputStream outputStream = new FileOutputStream("LastFilePath.properties");
-        lastFilePath.setProperty("LastFilePath", filePath);
-        lastFilePath.store(outputStream, null);
-    }
-
-    public String getLastFilePath() throws IOException{
-        Properties lastFilePath = new Properties();
-        InputStream inputStream = new FileInputStream("LastFilePath.properties");
-        lastFilePath.load(inputStream);
-        filePath = lastFilePath.getProperty("LastFilePath");
-        return filePath;
-    }
-
     public void handleSaveAsButton() {
         try {
             FileChooserBuilder fileChooserBuilder = new FileChooserBuilder();
@@ -182,9 +177,16 @@ public class ToDoListController implements Initializable {
             setUpSaver(filePath);
             setLastFilePath();
         }
-        catch(Exception e) {
-
+        catch(Exception ignored) {
+            
         }
+    }
+
+    private void setLastFilePath() throws IOException{
+        Properties lastFilePathTable = new Properties();
+        OutputStream outputStream = new FileOutputStream("LastFilePath.properties");
+        lastFilePathTable.setProperty("LastFilePath", filePath);
+        lastFilePathTable.store(outputStream, null);
     }
 
     private void setUpSaver(String filePath) throws JDOMException, IOException {
@@ -211,8 +213,7 @@ public class ToDoListController implements Initializable {
             setUpLoader(filePath);
             setLastFilePath();
         }
-        catch (Exception e) {
-
+        catch (Exception ignored) {
         }
     }
 
@@ -260,8 +261,6 @@ public class ToDoListController implements Initializable {
         taskTable.setItems(taskList);
     }
 
-
-
     private void setUpAlert(String headerText, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setHeaderText(headerText);
@@ -273,7 +272,7 @@ public class ToDoListController implements Initializable {
         taskTable.setItems(taskList);
     }
 
-    public void setCompletedTaskList(ObservableList<Task> completedTaskList) {
+    private void setCompletedTaskList(ObservableList<Task> completedTaskList) {
         this.completedTaskList = completedTaskList;
     }
 }

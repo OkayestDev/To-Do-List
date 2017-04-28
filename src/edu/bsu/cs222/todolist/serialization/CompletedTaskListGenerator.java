@@ -6,18 +6,23 @@ import javafx.collections.ObservableList;
 
 public class CompletedTaskListGenerator {
     private ObservableList<Task> taskList;
+    private ObservableList<Task> completedTaskList;
 
     public CompletedTaskListGenerator(ObservableList<Task> taskList) {
         this.taskList = taskList;
+        completedTaskList = FXCollections.observableArrayList();
     }
 
     public ObservableList<Task> generate() {
-        ObservableList<Task> completedTaskList = FXCollections.observableArrayList();
         for (Task task : taskList) {
-            if (task.isSelected()) {
-                completedTaskList.add(task);
-            }
+            addSelectedTasks(task);
         }
         return completedTaskList;
+    }
+
+    private void addSelectedTasks(Task task) {
+        if (task.isSelected()) {
+            completedTaskList.add(task);
+        }
     }
 }

@@ -13,7 +13,14 @@
   * Mark selected tasks as complete which are stored in completed task list
 * Save data
   * Being able to save the TaskList to a xml file
+  * Being able to save the TaskList in the default path
+  * Being able to choose where to save
 * Load date
   * Being able to load xml file to task table from a xml file
+  * Being able to load the TaskList from the default path
+  * Being able to choose where to load
+* Show tasklist by status if finised
+  * show complete tasklist
+  * show incomplete tasklist
   
 *authors:krichardson5, qliu4, tslantz, jmamuerbieke*
