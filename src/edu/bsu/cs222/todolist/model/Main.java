@@ -1,7 +1,5 @@
 package edu.bsu.cs222.todolist.model;
 
-import edu.bsu.cs222.todolist.controller.ToDoListController;
-import edu.bsu.cs222.todolist.serialization.TaskListLoader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
