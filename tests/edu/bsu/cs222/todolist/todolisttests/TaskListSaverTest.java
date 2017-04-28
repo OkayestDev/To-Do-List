@@ -64,7 +64,7 @@ public class TaskListSaverTest {
     }
 
     private void saveXml() throws JDOMException, IOException {
-        TaskListSaver saver = new TaskListSaver(taskList, null);
+        TaskListSaver saver = new TaskListSaver(taskList, taskList);
         savedDocument = saver.saveTo("./testassets/TaskListSaverTest.xml");
     }
 }
