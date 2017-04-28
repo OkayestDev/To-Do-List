@@ -41,6 +41,7 @@ public class ToDoListController implements Initializable {
     private ObservableList<Task> taskList = FXCollections.observableArrayList();
     private ObservableList<Task> completedTaskList = FXCollections.observableArrayList();
     private String filePath;
+    Deleter deleter;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -133,17 +134,18 @@ public class ToDoListController implements Initializable {
     }
 
     public void handleDeleteSelectedButton() {
-        Deleter deleter;
-        deleter = constructDeleter();
-        deleter.deleteSelectedTasks();
+        constructDeleter();
     }
 
-    private Deleter constructDeleter() {
+    private void constructDeleter() {
         if (incompleteTaskViewStatus) {
-            return new Deleter(taskList);
+            deleter = new Deleter(taskList);
+            taskList = deleter.deleteSelectedTasks();
         } else {
-            return new Deleter(completedTaskList);
+            deleter = new Deleter(completedTaskList);
+            completedTaskList = deleter.deleteSelectedTasks();
         }
+        resetTaskView();
     }
 
     public void handleSaveListButton() {
@@ -166,14 +168,8 @@ public class ToDoListController implements Initializable {
 
     public String getLastFilePath() throws IOException{
         Properties lastFilePath = new Properties();
-//        InputStream inputStream = new FileInputStream("LastFilePath.properties");
-//        lastFilePath.load(inputStream);
-//        filePath = lastFilePath.getProperty("LastFilePath");
-
-        ClassLoader classLoader = this.getClass().getClassLoader();
-        InputStream input = classLoader.getResourceAsStream("../LastFile.properties");
-        System.out.println(input.toString());
-        lastFilePath.load(input);
+        InputStream inputStream = new FileInputStream("LastFilePath.properties");
+        lastFilePath.load(inputStream);
         filePath = lastFilePath.getProperty("LastFilePath");
         return filePath;
     }
@@ -187,7 +183,7 @@ public class ToDoListController implements Initializable {
             setLastFilePath();
         }
         catch(Exception e) {
-            
+
         }
     }
 

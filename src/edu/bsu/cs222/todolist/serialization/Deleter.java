@@ -13,11 +13,12 @@ public class Deleter {
         index = taskList.size() - 1;
     }
 
-    public void deleteSelectedTasks() {
+    public ObservableList<Task> deleteSelectedTasks() {
         for (; index > -1; index--) {
             setTaskReference(taskList);
             deleteTask();
         }
+        return taskList;
     }
 
     private void setTaskReference(ObservableList<Task> taskList) {
