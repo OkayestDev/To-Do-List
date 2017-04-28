@@ -28,12 +28,4 @@ public class TaskTest {
     public void testGetDate() {
         Assert.assertEquals(newTask.getDate().toString(), "2017-11-11");
     }
-
-    @Test
-    public void testLearnLocalDate() {
-        LocalDate localDate = LocalDate.of(2017, 11, 11);
-        System.out.println(localDate.getYear());
-        System.out.println(localDate.getMonthValue());
-        System.out.println(localDate.getDayOfMonth());
-    }
 }
