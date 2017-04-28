@@ -46,7 +46,7 @@ public class ToDoListController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         autoLoad();
         filteredStatus = false;
-        incompleteTaskViewStatus = false;
+        incompleteTaskViewStatus = true;
         taskColumn.setCellValueFactory(new PropertyValueFactory<>("TaskName"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("Date"));
@@ -70,9 +70,8 @@ public class ToDoListController implements Initializable {
         return filePath;
     }
 
-    private InputStream getFilePathInputStream() {
-        ClassLoader classLoader = this.getClass().getClassLoader();
-        return classLoader.getResourceAsStream("../LastFile.properties");
+    private InputStream getFilePathInputStream() throws IOException {
+        return new FileInputStream("LastFilePath.properties");
     }
 
     public void handleAddTaskButton() {
@@ -86,19 +85,19 @@ public class ToDoListController implements Initializable {
     }
 
     public void handleSearchTasksButton() {
-        if (isFilteredListView() && isSearchFieldEmpty() && !isTaskListEmpty()) {
+        if (!isFilteredListView() && !isSearchFieldEmpty() && !isTaskListEmpty()) {
             switchToFilteredListView(getFilteredList());
-        } else if (isSearchFieldEmpty()) {
+        } else if (isFilteredListView()) {
             resetToDoListView();
         }
     }
 
     private boolean isFilteredListView() {
-        return !filteredStatus;
+        return filteredStatus;
     }
 
     private boolean isSearchFieldEmpty() {
-        return !searchField.getText().equals("");
+        return searchField.getText().equals("");
     }
 
     private boolean isTaskListEmpty() {
@@ -108,7 +107,7 @@ public class ToDoListController implements Initializable {
     private void switchToFilteredListView(ObservableList<Task> filteredList) {
         taskTable.setItems(filteredList);
         searchButton.setText("Remove Filter");
-        filteredStatus = !filteredStatus;
+        filteredStatus = true;
     }
 
     private ObservableList<Task> getFilteredList() {
@@ -145,17 +144,19 @@ public class ToDoListController implements Initializable {
     }
 
     public void handleDeleteSelectedButton() {
-        Deleter deleter;
-        deleter = constructDeleter();
-        deleter.deleteSelectedTasks();
+        constructDeleter();
     }
 
-    private Deleter constructDeleter() {
+    private void constructDeleter() {
+        Deleter deleter;
         if (incompleteTaskViewStatus) {
-            return new Deleter(taskList);
+            deleter = new Deleter(taskList);
+            taskList = deleter.deleteSelectedTasks();
         } else {
-            return new Deleter(completedTaskList);
+            deleter = new  Deleter(completedTaskList);
+            completedTaskList = deleter.deleteSelectedTasks();
         }
+        resetTaskView();
     }
 
     public void handleSaveListButton() {
