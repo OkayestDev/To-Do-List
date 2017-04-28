@@ -12,7 +12,7 @@ public class CalendarViewBuilder {
     private CalendarViewController calendarViewController;
 
     public CalendarViewBuilder(ObservableList<Task> taskList) throws IOException {
-        stageBuilder = new StageBuilder("../fxml/CalendarView.fxml");
+        stageBuilder = new StageBuilder(getClass().getResource("../fxml/CalendarView.fxml"));
         calendarViewController = (CalendarViewController) stageBuilder.getController();
         calendarViewController.setTaskList(taskList);
     }

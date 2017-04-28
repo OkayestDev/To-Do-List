@@ -33,7 +33,7 @@ public class NewTaskPopUpBuilder {
 
     private void setUpNewTaskPopUpStage() {
         try {
-            stageBuilder = new StageBuilder("../fxml/NewTaskPopUp.fxml");
+            stageBuilder = new StageBuilder(getClass().getResource("../fxml/NewTaskPopUp.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.net.URL;
 
 
 @SuppressWarnings("WeakerAccess I don't need to make the class private")
@@ -13,9 +14,9 @@ public class StageBuilder {
     private Stage stage;
     private FXMLLoader fxmlLoader;
 
-    StageBuilder(String fileName) throws IOException {
+    StageBuilder(URL url) throws IOException {
         stage = new Stage();
-        fxmlLoader = new FXMLLoader(getClass().getResource(fileName));
+        fxmlLoader = new FXMLLoader(url);
         Parent root = fxmlLoader.load();
         stage.setScene(new Scene(root));
     }
