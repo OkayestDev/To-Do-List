@@ -1,6 +1,5 @@
-package edu.bsu.cs222.todolist.builder;
+package edu.bsu.cs222.todolist.uibuilder;
 
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 

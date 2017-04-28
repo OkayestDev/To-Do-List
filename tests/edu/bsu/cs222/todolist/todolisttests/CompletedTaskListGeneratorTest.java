@@ -6,13 +6,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.junit.Assert;
 import org.junit.Test;
+
 import java.time.LocalDate;
 
 public class CompletedTaskListGeneratorTest {
     private ObservableList<Task> entireTaskList = FXCollections.observableArrayList();
     private ObservableList<Task> completedTaskList = FXCollections.observableArrayList();
 
-    private void setUp() {
+    public CompletedTaskListGeneratorTest() {
         LocalDate localDate1 = LocalDate.of(2011, 11, 11);
         LocalDate localDate2 = LocalDate.of(2011, 11, 12);
         LocalDate localDate3 = LocalDate.of(2011, 11, 11);
@@ -28,7 +29,6 @@ public class CompletedTaskListGeneratorTest {
 
     @Test
     public void testMarkAsComplete() {
-        setUp();
         CompletedTaskListGenerator completedTaskListGenerator = new CompletedTaskListGenerator(entireTaskList);
         ObservableList<Task> testList = completedTaskListGenerator.generate();
         Assert.assertTrue(testList.get(0).getTaskName().equals(completedTaskList.get(0).getTaskName()));

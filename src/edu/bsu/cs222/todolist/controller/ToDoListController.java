@@ -1,10 +1,10 @@
 package edu.bsu.cs222.todolist.controller;
 
-import edu.bsu.cs222.todolist.builder.FileChooserBuilder;
+import edu.bsu.cs222.todolist.uibuilder.FileChooserBuilder;
 import edu.bsu.cs222.todolist.serialization.*;
 import edu.bsu.cs222.todolist.model.Task;
-import edu.bsu.cs222.todolist.builder.NewTaskPopUpBuilder;
-import edu.bsu.cs222.todolist.builder.CalendarViewBuilder;
+import edu.bsu.cs222.todolist.uibuilder.NewTaskPopUpBuilder;
+import edu.bsu.cs222.todolist.uibuilder.CalendarViewBuilder;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -50,7 +50,7 @@ public class ToDoListController implements Initializable {
         taskColumn.setCellValueFactory(new PropertyValueFactory<>("TaskName"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("Date"));
-        selectColumn.setCellValueFactory(new edu.bsu.cs222.todolist.builder.CheckBoxBuilder());
+        selectColumn.setCellValueFactory(new edu.bsu.cs222.todolist.uibuilder.CheckBoxBuilder());
         taskTable.setItems(taskList);
     }
 
