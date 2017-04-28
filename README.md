@@ -1,4 +1,4 @@
-# fp-krichardson5-qliu4-tslantz-jmamuerbieke
+# CS222 Group Project
 ## To Do List
 ### What it can do?
 * Add tasks to a table of tasks
@@ -23,4 +23,4 @@
   * show complete tasklist
   * show incomplete tasklist
   
-*authors:krichardson5, qliu4, tslantz, jmamuerbieke*
+*authors:krichardson5, qliu4
